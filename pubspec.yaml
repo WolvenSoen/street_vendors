@@ -13,8 +13,20 @@ dependencies:
   flutter:
     sdk: flutter
 
-
+  # Utility packages
+  http: ^1.1.0
+  intl: ^0.18.1
+  logger: ^2.0.1
+  url_launcher: ^6.1.12
+  # State management
+  get: ^4.6.5
+  get_storage: ^2.1.1
+  # UI packages
   cupertino_icons: ^1.0.2
+  google_fonts: ^4.0.3
+  flutter_native_splash: ^2.3.2
+  smooth_page_indicator: ^1.1.0
+
 
 dev_dependencies:
   flutter_test:
@@ -27,13 +39,13 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/logo
-    - assets/images
-    - assets/icons
-    - assets/fonts
-    - assets/videos
+    - assets/logos/
+    - assets/images/onboarding_images/
+    - assets/icons/
+    - assets/fonts/
+    - assets/videos/
 
-  fonts:
+  ##fonts:
 
 
 

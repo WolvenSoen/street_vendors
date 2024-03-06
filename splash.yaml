@@ -1,0 +1,21 @@
+flutter_native_splash:
+  color: "#FFFFFF"
+  color_dark: "#000000"
+  background_image: assets/logos/streeter_light.png
+  background_image_dark: assets/logos/streeter_dark.png
+  branding: assets/logos/branding.png
+  branding_dark: assets/logos/branding_dark.png
+  branding_mode: bottom
+
+
+
+  android_12:
+    color: "#FFFFFF"
+    color_dark: "#000000"
+    image: assets/logos/streeter_light.png
+    image_dark: assets/logos/streeter_dark.png
+    branding: assets/logos/branding.png
+    branding_dark: assets/logos/branding_dark.png
+    branding_mode: bottom
+
+  web: false
