@@ -17,7 +17,7 @@ class OnBoardingController extends GetxController {
 
   void nextPage() {
     if (currentPageIndex.value == 2) {
-      //Get.offNamed('/login');
+      Get.offNamed('/login');
     } else{
       currentPageIndex.value++;
       pageController.animateToPage(currentPageIndex.value,
