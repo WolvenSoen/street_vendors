@@ -68,7 +68,9 @@ class LoginScreen extends StatelessWidget {
                       SizedBox(
                         width: double.infinity,
                         child: OutlinedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/signup');
+                          },
                           child: const Text('¿No tienes una cuenta? Regístrate aquí'),
                         ),
                       ),

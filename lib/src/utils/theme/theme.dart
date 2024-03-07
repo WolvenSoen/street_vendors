@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:street_vendors/src/utils/theme/elevated_button_theme.dart';
 import 'package:street_vendors/src/utils/theme/text_button_theme.dart';
+import 'package:street_vendors/src/utils/theme/text_form_field_theme.dart';
 import 'package:street_vendors/src/utils/theme/text_theme.dart';
 
 import 'outlined_button_theme.dart';
@@ -18,7 +19,8 @@ class WolvenTheme {
     textTheme: WolvenTextTheme.lightTextTheme,
     elevatedButtonTheme: WolvenElevatedBtn.lightElevatedButtonTheme,
     outlinedButtonTheme: WolvenOutlinedBtn.lightOutlinedButtonTheme,
-    textButtonTheme: WolvenTextBtn.lightTextButtonTheme
+    textButtonTheme: WolvenTextBtn.lightTextButtonTheme,
+    inputDecorationTheme: WolvenTextFormFieldTheme.lightInputTextDecoration,
   );
 
   static ThemeData darkTheme = ThemeData(
@@ -30,7 +32,8 @@ class WolvenTheme {
     textTheme: WolvenTextTheme.darkTextTheme,
     elevatedButtonTheme: WolvenElevatedBtn.darkElevatedButtonTheme,
     outlinedButtonTheme: WolvenOutlinedBtn.darkOutlinedButtonTheme,
-    textButtonTheme: WolvenTextBtn.darkTextButtonTheme
+    textButtonTheme: WolvenTextBtn.darkTextButtonTheme,
+    inputDecorationTheme: WolvenTextFormFieldTheme.darkInputTextDecoration,
   );
 }
 
