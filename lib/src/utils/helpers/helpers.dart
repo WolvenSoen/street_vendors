@@ -42,4 +42,12 @@ class Helpers {
     return list.toSet().toList();
   }
 
+  static double getScreenHeight(){
+    return MediaQuery.of(Get.context!).size.height;
+  }
+
+  static double getScreenWidth(){
+    return MediaQuery.of(Get.context!).size.width;
+  }
+
 }

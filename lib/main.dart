@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:street_vendors/src/features/authentication/views/onboarding/onboarding.dart';
+import 'package:street_vendors/src/utils/theme/theme.dart';
 
 void main() {
 
@@ -15,14 +18,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'STREETER',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      themeMode: ThemeMode.system,
+      theme: WolvenTheme.lightTheme,
+      darkTheme: WolvenTheme.darkTheme,
+      home: const OnBoardingScreen(),
     );
   }
 }
