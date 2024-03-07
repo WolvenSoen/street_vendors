@@ -27,6 +27,8 @@ dependencies:
   flutter_native_splash: ^2.3.2
   smooth_page_indicator: ^1.1.0
   iconsax: ^0.0.8
+  # Firebase packages
+  firebase_core: ^2.26.0
 
 
 dev_dependencies:

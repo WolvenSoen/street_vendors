@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
+import 'package:get/get.dart';
+import 'package:street_vendors/src/common/components/bottom_nav_menu.dart';
 import 'package:street_vendors/src/utils/constants/text_strings.dart';
 import 'package:street_vendors/src/utils/helpers/helpers.dart';
-import 'package:street_vendors/src/utils/theme/text_theme.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -51,7 +51,9 @@ class LoginScreen extends StatelessWidget {
                       Align(
                         alignment: Alignment.centerRight,
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/forgot-password');
+                          },
                           child: const Text('¿Olvidó su contraseña?'),
                         ),
                       ),
@@ -60,7 +62,7 @@ class LoginScreen extends StatelessWidget {
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () => Get.to(() => const NavigationMenu()),
                           child: const Text('Iniciar sesión'),
                         ),
                       ),

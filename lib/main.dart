@@ -1,16 +1,31 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:street_vendors/src/features/authentication/views/login/login.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:street_vendors/src/data/repositories/authentication/authentication_repository.dart';
 import 'package:street_vendors/src/features/authentication/views/onboarding/onboarding.dart';
 import 'package:street_vendors/src/routing/routes.dart';
+import 'package:street_vendors/src/utils/constants/colors.dart';
 import 'package:street_vendors/src/utils/theme/theme.dart';
 
-void main() {
+import 'firebase_options.dart';
 
-  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+Future<void> main() async {
+  // INIT WIDGETS BINDING
+  final WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
 
+  // GET LOCAL STORAGE
+  await GetStorage.init();
+
+  // AWAIT NATIVE SPLASH
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
+  // INIT FIREBASE
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform)
+      .then((FirebaseApp value) => Get.put(AuthenticationRepository()));
 
   runApp(const MyApp());
 }
@@ -26,56 +41,15 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.system,
       theme: WolvenTheme.lightTheme,
       darkTheme: WolvenTheme.darkTheme,
-      home: const OnBoardingScreen(),
-      routes: Routes.routes,
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title, style: GoogleFonts.montserrat()),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+      home: const Scaffold(
+        backgroundColor: Colors.black,
+        body: Center(
+          child: CircularProgressIndicator(
+            color: AppColors.primaryColor,
+          )
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+      routes: Routes.routes,
     );
   }
 }

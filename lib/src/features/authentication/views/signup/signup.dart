@@ -81,7 +81,9 @@ class SignupScreen extends StatelessWidget {
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/verify-email');
+                          },
                           child: const Text('Registrarse'),
                         ),
                       ),
