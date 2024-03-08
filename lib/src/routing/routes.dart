@@ -10,7 +10,7 @@ class Routes{
     '/login': (context) => const LoginScreen(),
     '/signup': (context) => const SignupScreen(),
     '/verify-email': (context) => const VerifyEmailScreen(),
-    '/success-verification': (context) => const SuccessVerificationScreen(),
+/*    '/success-verification': (context) => const SuccessVerificationScreen(),*/
     '/forgot-password': (context) => const ForgotPasswordScreen(),
   };
 }

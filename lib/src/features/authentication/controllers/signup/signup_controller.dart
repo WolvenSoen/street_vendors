@@ -67,7 +67,7 @@ class SignupController extends GetxController{
       Loaders.successSnackBar(title: '¡Bienvenido!', message: 'Usuario registrado con éxito');
 
       // MOVE TO VERIFY EMAIL SCREEN
-      Get.to(() => const VerifyEmailScreen());
+      Get.to(() => VerifyEmailScreen(email: email.text.trim()));
 
     } catch (e){
       print(e);
