@@ -21,6 +21,7 @@ dependencies:
   # State management
   get: ^4.6.5
   get_storage: ^2.1.1
+  connectivity_plus: ^2.2.2
   # UI packages
   cupertino_icons: ^1.0.2
   google_fonts: ^4.0.3
@@ -29,6 +30,8 @@ dependencies:
   iconsax: ^0.0.8
   # Firebase packages
   firebase_core: ^2.26.0
+  firebase_auth: ^4.14.0
+  cloud_firestore: ^4.13.1
 
 
 dev_dependencies:

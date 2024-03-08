@@ -24,7 +24,7 @@ class OnBoardingController extends GetxController {
       final storage = GetStorage();
 
       storage.write('onboarding', false);
-      
+
       Get.offAll(const LoginScreen());
     } else{
       currentPageIndex.value++;

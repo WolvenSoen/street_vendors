@@ -1,4 +1,12 @@
 class Validators{
+
+  static String? validateEmptyField(String? value, String? fieldName){
+    if(value == null || value.isEmpty){
+      return '$fieldName is required';
+    }
+    return null;
+  }
+
   static String? emailValidator(String? value){
     if(value == null || value.isEmpty){
       return 'Email is required';
@@ -46,6 +54,11 @@ class Validators{
     if(value.length < 10){
       return 'Phone number must be at least 10 characters long';
     }
+
+    if(!RegExp(r'^[0-9]+$').hasMatch(value)){
+      return 'Please enter a valid phone number';
+    }
+
     return null;
   }
 }

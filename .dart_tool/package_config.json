@@ -2,6 +2,12 @@
   "configVersion": 2,
   "packages": [
     {
+      "name": "_flutterfire_internals",
+      "rootUri": "file:///C:/Users/Patricio%20Contreras/AppData/Local/Pub/Cache/hosted/pub.dev/_flutterfire_internals-1.3.24",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
+    },
+    {
       "name": "ansicolor",
       "rootUri": "file:///C:/Users/Patricio%20Contreras/AppData/Local/Pub/Cache/hosted/pub.dev/ansicolor-2.0.2",
       "packageUri": "lib/",
@@ -44,10 +50,64 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "cloud_firestore",
+      "rootUri": "file:///C:/Users/Patricio%20Contreras/AppData/Local/Pub/Cache/hosted/pub.dev/cloud_firestore-4.15.7",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "cloud_firestore_platform_interface",
+      "rootUri": "file:///C:/Users/Patricio%20Contreras/AppData/Local/Pub/Cache/hosted/pub.dev/cloud_firestore_platform_interface-6.1.8",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "cloud_firestore_web",
+      "rootUri": "file:///C:/Users/Patricio%20Contreras/AppData/Local/Pub/Cache/hosted/pub.dev/cloud_firestore_web-3.10.7",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
+    },
+    {
       "name": "collection",
       "rootUri": "file:///C:/Users/Patricio%20Contreras/AppData/Local/Pub/Cache/hosted/pub.dev/collection-1.18.0",
       "packageUri": "lib/",
       "languageVersion": "2.18"
+    },
+    {
+      "name": "connectivity_plus",
+      "rootUri": "file:///C:/Users/Patricio%20Contreras/AppData/Local/Pub/Cache/hosted/pub.dev/connectivity_plus-2.3.9",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "connectivity_plus_linux",
+      "rootUri": "file:///C:/Users/Patricio%20Contreras/AppData/Local/Pub/Cache/hosted/pub.dev/connectivity_plus_linux-1.3.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "connectivity_plus_macos",
+      "rootUri": "file:///C:/Users/Patricio%20Contreras/AppData/Local/Pub/Cache/hosted/pub.dev/connectivity_plus_macos-1.2.6",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "connectivity_plus_platform_interface",
+      "rootUri": "file:///C:/Users/Patricio%20Contreras/AppData/Local/Pub/Cache/hosted/pub.dev/connectivity_plus_platform_interface-1.2.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "connectivity_plus_web",
+      "rootUri": "file:///C:/Users/Patricio%20Contreras/AppData/Local/Pub/Cache/hosted/pub.dev/connectivity_plus_web-1.2.5",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "connectivity_plus_windows",
+      "rootUri": "file:///C:/Users/Patricio%20Contreras/AppData/Local/Pub/Cache/hosted/pub.dev/connectivity_plus_windows-1.2.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "convert",
@@ -74,6 +134,12 @@
       "languageVersion": "2.19"
     },
     {
+      "name": "dbus",
+      "rootUri": "file:///C:/Users/Patricio%20Contreras/AppData/Local/Pub/Cache/hosted/pub.dev/dbus-0.7.10",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
       "name": "fake_async",
       "rootUri": "file:///C:/Users/Patricio%20Contreras/AppData/Local/Pub/Cache/hosted/pub.dev/fake_async-1.3.1",
       "packageUri": "lib/",
@@ -84,6 +150,24 @@
       "rootUri": "file:///C:/Users/Patricio%20Contreras/AppData/Local/Pub/Cache/hosted/pub.dev/ffi-2.1.0",
       "packageUri": "lib/",
       "languageVersion": "3.0"
+    },
+    {
+      "name": "firebase_auth",
+      "rootUri": "file:///C:/Users/Patricio%20Contreras/AppData/Local/Pub/Cache/hosted/pub.dev/firebase_auth-4.17.7",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "firebase_auth_platform_interface",
+      "rootUri": "file:///C:/Users/Patricio%20Contreras/AppData/Local/Pub/Cache/hosted/pub.dev/firebase_auth_platform_interface-7.1.7",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "firebase_auth_web",
+      "rootUri": "file:///C:/Users/Patricio%20Contreras/AppData/Local/Pub/Cache/hosted/pub.dev/firebase_auth_web-5.9.7",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
     },
     {
       "name": "firebase_core",
@@ -220,6 +304,12 @@
     {
       "name": "meta",
       "rootUri": "file:///C:/Users/Patricio%20Contreras/AppData/Local/Pub/Cache/hosted/pub.dev/meta-1.10.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "nm",
+      "rootUri": "file:///C:/Users/Patricio%20Contreras/AppData/Local/Pub/Cache/hosted/pub.dev/nm-0.5.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -440,7 +530,7 @@
       "languageVersion": "3.2"
     }
   ],
-  "generated": "2024-03-07T22:59:52.374338Z",
+  "generated": "2024-03-08T02:31:13.413744Z",
   "generator": "pub",
   "generatorVersion": "3.2.5"
 }

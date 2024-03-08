@@ -1,0 +1,1 @@
+ C:\\Users\\Patricio\ Contreras\\Desktop\\Proyecto\\Workspaces\\Flutter\ -\ Workspace\\street_vendors\\.dart_tool\\flutter_build\\95a8bdd14e844812ff838e504a67924c\\native_assets.yaml: 

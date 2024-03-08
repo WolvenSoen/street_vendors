@@ -5,8 +5,8 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:street_vendors/src/bindings/bindings.dart';
 import 'package:street_vendors/src/data/repositories/authentication/authentication_repository.dart';
-import 'package:street_vendors/src/features/authentication/views/onboarding/onboarding.dart';
 import 'package:street_vendors/src/routing/routes.dart';
 import 'package:street_vendors/src/utils/constants/colors.dart';
 import 'package:street_vendors/src/utils/theme/theme.dart';
@@ -41,6 +41,7 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.system,
       theme: WolvenTheme.lightTheme,
       darkTheme: WolvenTheme.darkTheme,
+      initialBinding: GeneralBindings(),
       home: const Scaffold(
         backgroundColor: Colors.black,
         body: Center(
