@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:street_vendors/src/common/components/bottom_nav_menu.dart';
 import 'package:street_vendors/src/common/components/loaders/loaders.dart';
 import 'package:street_vendors/src/features/authentication/controllers/signup/verify_email_controller.dart';
@@ -66,10 +67,51 @@ class AuthenticationRepository extends GetxController{
     }
   }
 
+  Future<UserCredential> login(String email, String password) async {
+    try {
+      return await _auth.signInWithEmailAndPassword(email: email, password: password);
+    } on FirebaseAuthException catch (e){
+      return Loaders.errorSnackBar(title: 'Oops!', message: e.message ?? 'Error');
+    } on FirebaseException catch (e){
+      return Loaders.errorSnackBar(title: 'Oops!', message: e.message ?? 'Error');
+    } on FormatException catch (e){
+      return Loaders.errorSnackBar(title: 'Oops!', message: e.message ?? 'Error');
+    } catch (e) {
+      throw 'Error: $e';
+    }
+  }
+
   Future<void> logout() async{
     try {
+
       await _auth.signOut();
       Get.offAll(() => const LoginScreen());
+
+    } on FirebaseAuthException catch (e){
+      return Loaders.errorSnackBar(title: 'Oops!', message: e.message ?? 'Error');
+    } on FirebaseException catch (e){
+      return Loaders.errorSnackBar(title: 'Oops!', message: e.message ?? 'Error');
+    } on FormatException catch (e){
+      return Loaders.errorSnackBar(title: 'Oops!', message: e.message ?? 'Error');
+    } catch (e) {
+      throw 'Error: $e';
+    }
+  }
+
+  /// GOOGLE SIGN-IN
+  Future<UserCredential> signInWithGoogle() async {
+    try {
+      final GoogleSignInAccount? userAccount = await GoogleSignIn().signIn();
+
+      final GoogleSignInAuthentication? googleAuth = await userAccount?.authentication;
+
+      final credentials = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+
+      return await _auth.signInWithCredential(credentials);
+
     } on FirebaseAuthException catch (e){
       return Loaders.errorSnackBar(title: 'Oops!', message: e.message ?? 'Error');
     } on FirebaseException catch (e){

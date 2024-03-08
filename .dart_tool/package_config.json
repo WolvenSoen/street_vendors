@@ -236,6 +236,42 @@
       "languageVersion": "2.14"
     },
     {
+      "name": "google_identity_services_web",
+      "rootUri": "file:///C:/Users/Patricio%20Contreras/AppData/Local/Pub/Cache/hosted/pub.dev/google_identity_services_web-0.3.0+2",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
+    },
+    {
+      "name": "google_sign_in",
+      "rootUri": "file:///C:/Users/Patricio%20Contreras/AppData/Local/Pub/Cache/hosted/pub.dev/google_sign_in-6.2.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
+    },
+    {
+      "name": "google_sign_in_android",
+      "rootUri": "file:///C:/Users/Patricio%20Contreras/AppData/Local/Pub/Cache/hosted/pub.dev/google_sign_in_android-6.1.21",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "google_sign_in_ios",
+      "rootUri": "file:///C:/Users/Patricio%20Contreras/AppData/Local/Pub/Cache/hosted/pub.dev/google_sign_in_ios-5.7.4",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
+    },
+    {
+      "name": "google_sign_in_platform_interface",
+      "rootUri": "file:///C:/Users/Patricio%20Contreras/AppData/Local/Pub/Cache/hosted/pub.dev/google_sign_in_platform_interface-2.4.5",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "google_sign_in_web",
+      "rootUri": "file:///C:/Users/Patricio%20Contreras/AppData/Local/Pub/Cache/hosted/pub.dev/google_sign_in_web-0.12.3+2",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
+    },
+    {
       "name": "html",
       "rootUri": "file:///C:/Users/Patricio%20Contreras/AppData/Local/Pub/Cache/hosted/pub.dev/html-0.15.4",
       "packageUri": "lib/",
@@ -530,7 +566,7 @@
       "languageVersion": "3.2"
     }
   ],
-  "generated": "2024-03-08T02:31:13.413744Z",
+  "generated": "2024-03-08T22:08:27.170666Z",
   "generator": "pub",
   "generatorVersion": "3.2.5"
 }

@@ -1,50 +1,73 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:street_vendors/src/common/components/bottom_nav_menu.dart';
 import 'package:street_vendors/src/utils/constants/text_strings.dart';
 import 'package:street_vendors/src/utils/helpers/helpers.dart';
+import 'package:street_vendors/src/utils/validators/validators.dart';
+
+import '../../../../utils/constants/colors.dart';
+import '../../controllers/login/login_controller.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-
+    final controller = Get.put(LoginController());
     final dark = Helpers.isDarkMode(context);
 
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(20),
-          child: Column(
-            children: [
-              const SizedBox(height: 50),
-              /// Logo
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Image(image: AssetImage(dark? TextStrings.LogoDarkXL : TextStrings.LogoLightXL), height: 300),
-                ],
-              ),
+        body: SingleChildScrollView(
+      child: Padding(
+        padding: EdgeInsets.all(20),
+        child: Column(
+          children: [
+            const SizedBox(height: 50),
 
-              /// Form
-              Form(child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: Column(
-                    children: [
+            /// Logo
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Image(
+                    image: AssetImage(dark
+                        ? TextStrings.LogoDarkXL
+                        : TextStrings.LogoLightXL),
+                    height: 300),
+              ],
+            ),
+
+            /// Form
+            Form(
+              key: controller.loginFormKey,
+                child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: Column(children: [
                       /// Email
                       TextFormField(
+                        validator: (value) => Validators.emailValidator(value),
+                        controller: controller.email,
                         decoration: const InputDecoration(
                           prefixIcon: Icon(Icons.email),
                           labelText: 'Correo Electrónico',
                         ),
                       ),
                       const SizedBox(height: 20),
+
                       /// Password
-                      TextFormField(
-                        decoration: const InputDecoration(
-                          prefixIcon: Icon(Icons.lock),
-                          labelText: 'Contraseña',
+                      Obx(
+                        () => TextFormField(
+                          controller: controller.password,
+                          validator: (value) => Validators.validateEmptyField(value, 'Contraseña'),
+                          obscureText: controller.hidePassword.value,
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.lock),
+                            suffixIcon: IconButton(
+                              icon: Icon(controller.hidePassword.value ? Icons.visibility_off : Icons.visibility),
+                              onPressed: () {
+                                controller.hidePassword.value = !controller.hidePassword.value;
+                              },
+                            ),
+                            labelText: 'Contraseña',
+                          ),
                         ),
                       ),
                       const SizedBox(height: 10),
@@ -58,14 +81,31 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 20),
+
+                      /// Remember Me
+                      Row(
+                        children: [
+                          Obx(() => Checkbox(
+                              checkColor: dark ? AppColors.dark : AppColors.light,
+                              fillColor: MaterialStateProperty.all(
+                                  dark ? AppColors.primaryColor : AppColors.primaryColor),
+                              value: controller.rememberMe.value,
+                              onChanged: (value) {
+                                controller.rememberMe.value = !controller.rememberMe.value;
+                              })),
+                          const Text('Recordarme'),
+                        ],
+                      ),
+
                       /// Login Button
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: () => Get.to(() => const NavigationMenu()),
+                          onPressed: () => controller.login(),
                           child: const Text('Iniciar sesión'),
                         ),
                       ),
+
                       /// Register Button
                       SizedBox(
                         width: double.infinity,
@@ -76,34 +116,36 @@ class LoginScreen extends StatelessWidget {
                           child: const Text('¿No tienes una cuenta? Regístrate aquí'),
                         ),
                       ),
-                    ]
-                  ),
-                )
-              ),
+                    ]),
+                  )
+            ),
 
-              /// Divider
-              const Row(
-                children: [
-                  Expanded(child: Divider()),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: Text('Ó'),
-                  ),
-                  Expanded(child: Divider()),
-                ],
-              ),
+            /// Divider
+            const Row(
+              children: [
+                Expanded(child: Divider()),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: Text('Ó'),
+                ),
+                Expanded(child: Divider()),
+              ],
+            ),
 
-              /// Social Media Buttons
-              Column(
-                  children: [
-                    IconButton(onPressed: (){}, icon: Icon(Icons.g_mobiledata_rounded), iconSize: 70),
-                  ],
-              ),
-            ],
-          ),
+            /// Social Media Buttons
+            Column(
+              children: [
+                IconButton(
+                    onPressed: () {
+                      controller.loginWithGoogle();
+                    },
+                    icon: Icon(Icons.g_mobiledata_rounded),
+                    iconSize: 70),
+              ],
+            ),
+          ],
         ),
-      )
-    );
+      ),
+    ));
   }
 }
-
