@@ -5,6 +5,7 @@ import 'package:street_vendors/src/utils/theme/text_button_theme.dart';
 import 'package:street_vendors/src/utils/theme/text_form_field_theme.dart';
 import 'package:street_vendors/src/utils/theme/text_theme.dart';
 
+import 'checkbox_theme.dart';
 import 'outlined_button_theme.dart';
 
 class WolvenTheme {
@@ -21,6 +22,7 @@ class WolvenTheme {
     outlinedButtonTheme: WolvenOutlinedBtn.lightOutlinedButtonTheme,
     textButtonTheme: WolvenTextBtn.lightTextButtonTheme,
     inputDecorationTheme: WolvenTextFormFieldTheme.lightInputTextDecoration,
+    checkboxTheme: WolvenCheck.lightCheckboxTheme,
   );
 
   static ThemeData darkTheme = ThemeData(
@@ -34,6 +36,7 @@ class WolvenTheme {
     outlinedButtonTheme: WolvenOutlinedBtn.darkOutlinedButtonTheme,
     textButtonTheme: WolvenTextBtn.darkTextButtonTheme,
     inputDecorationTheme: WolvenTextFormFieldTheme.darkInputTextDecoration,
+    checkboxTheme: WolvenCheck.darkCheckboxTheme,
   );
 }
 

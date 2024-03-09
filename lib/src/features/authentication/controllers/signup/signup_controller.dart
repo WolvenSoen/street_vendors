@@ -13,6 +13,7 @@ class SignupController extends GetxController{
   static SignupController get instance => Get.find();
 
   // Variables
+  final isVendor = false.obs;
   final hidePassword = true.obs;
   final email = TextEditingController();
   final password = TextEditingController();
@@ -40,8 +41,6 @@ class SignupController extends GetxController{
         return;
       }
 
-
-
       // SIGNUP LOGIC
       final userCredential = await AuthenticationRepository.instance.registerWithEmailAndPassword(
         email.text,
@@ -51,7 +50,9 @@ class SignupController extends GetxController{
       // SAVE ON FIRESTORE
       final savingUser = UserModel(
         id: userCredential.user!.uid,
+        fullName:  '${firstName.text} ${lastName.text}',
         email: email.text,
+        isVendor: isVendor.value,
         firstName: firstName.text,
         lastName: lastName.text,
         phoneNumber: phoneNumber.text,

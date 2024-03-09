@@ -86,9 +86,6 @@ class LoginScreen extends StatelessWidget {
                       Row(
                         children: [
                           Obx(() => Checkbox(
-                              checkColor: dark ? AppColors.dark : AppColors.light,
-                              fillColor: MaterialStateProperty.all(
-                                  dark ? AppColors.primaryColor : AppColors.primaryColor),
                               value: controller.rememberMe.value,
                               onChanged: (value) {
                                 controller.rememberMe.value = !controller.rememberMe.value;

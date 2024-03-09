@@ -14,19 +14,11 @@ class FullScreenLoader {
           color: Helpers.isDarkMode(Get.context!) ? Colors.black : Colors.white,
           width: double.infinity,
           height: double.infinity,
-          child: Column(
+          child: const Column(
             children: [
-              const SizedBox(height: 250),
-              const CircularProgressIndicator(
+              SizedBox(height: 250),
+              CircularProgressIndicator(
                 color: AppColors.primaryColor,
-              ),
-              const SizedBox(height: 20),
-              Text(
-                text,
-                style: TextStyle(
-                  color: Helpers.isDarkMode(Get.context!) ? Colors.white : Colors.black,
-                  fontSize: 18,
-                ),
               ),
             ],
           )

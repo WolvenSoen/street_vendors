@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:street_vendors/src/data/repositories/authentication/authentication_repository.dart';
 import 'package:street_vendors/src/utils/constants/text_strings.dart';
 import 'package:street_vendors/src/utils/helpers/helpers.dart';
 
@@ -12,7 +13,9 @@ class ProfileScreen extends StatelessWidget {
   // USER PROFILE SETTINGS
   @override
   Widget build(BuildContext context) {
+
     final controller = UserController.instance;
+    final authController = AuthenticationRepository.instance;
 
     final dark = Helpers.isDarkMode(context);
 
@@ -27,8 +30,15 @@ class ProfileScreen extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.all(8.0),
                 child: ListTile(
-                  title: Obx(() => Text(
-                      '${controller.user.value.firstName} ${controller.user.value.lastName}')),
+                  title: Obx(() => RichText(
+                        text: TextSpan(
+                          text: controller.user.value.fullName,
+                          style: TextStyle(
+                            color: dark? AppColors.light: Colors.black,
+                            fontSize: 22,
+                          ),
+                        ),
+                  )),
                   subtitle: Obx(() => RichText(
                         text: TextSpan(
                           text: controller.user.value.email,
@@ -65,7 +75,14 @@ class ProfileScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             /// BODY
-
+            /// FOOTER
+            // LOGOUT BUTTON
+            ElevatedButton(
+              onPressed: () {
+                authController.logout();
+              },
+              child: const Text('Cerrar sesión'),
+            ),
           ],
         ),
       ),

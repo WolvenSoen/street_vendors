@@ -16,6 +16,8 @@ class UserController extends GetxController{
     fetchUser();
   }
 
+
+
   Future<void> save(UserCredential? userCredentials) async {
     try{
 
@@ -24,10 +26,13 @@ class UserController extends GetxController{
         final lastName = userCredentials.user?.displayName?.split(' ').last ?? '';
         final user = userCredentials.user;
 
+
         final userModel = UserModel(
           id: user!.uid,
+          fullName: user.displayName ?? '',
           firstName: user.displayName ?? '',
           lastName: lastName,
+          isVendor: false,
           email: user.email ?? '',
           phoneNumber: user.phoneNumber ?? '',
           profilePicture: user.photoURL ?? '',

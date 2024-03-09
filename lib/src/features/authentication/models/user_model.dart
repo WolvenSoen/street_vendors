@@ -1,33 +1,36 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:street_vendors/src/utils/formatters/formatters.dart';
-import 'package:street_vendors/src/utils/helpers/helpers.dart';
 
 class UserModel {
   final String id;
+  String fullName;
   String firstName;
   String lastName;
+  bool isVendor;
   final String email;
   String phoneNumber;
   String profilePicture;
 
   UserModel({
     required this.id,
+    required this.fullName,
     required this.firstName,
     required this.lastName,
     required this.email,
+    required this.isVendor,
     required this.phoneNumber,
     required this.profilePicture,
   });
-
-  String get fullName => '$firstName $lastName';
 
   String get formatedPhoneNumber => Formatters.formatPhoneNumber(phoneNumber);
 
   static UserModel empty() => UserModel(
     id: '',
+    fullName: '',
     firstName: '',
     lastName: '',
     email: '',
+    isVendor: false,
     phoneNumber: '',
     profilePicture: '',
   );
@@ -35,8 +38,10 @@ class UserModel {
   // CONVERT TO JSON
   Map<String, dynamic> toJson() => {
     'id': id,
+    'fullName': fullName,
     'firstName': firstName,
     'lastName': lastName,
+    'isVendor': isVendor,
     'email': email,
     'phoneNumber': phoneNumber,
     'profilePicture': profilePicture,
@@ -50,6 +55,8 @@ class UserModel {
         id: document.id,
         firstName: data['firstName'] ?? '',
         lastName: data['lastName'] ?? '',
+        fullName: data['fullName'] ?? '',
+        isVendor: data['isVendor'] ?? false,
         email: data['email'] ?? '',
         phoneNumber: data['phoneNumber'] ?? '',
         profilePicture: data['profilePicture'] ?? '',

@@ -111,6 +111,20 @@ class SignupScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 20),
 
+                      /// Vendor
+                      Row(
+                        children: [
+                          Obx(
+                            () => Checkbox(
+                              value: controller.isVendor.value,
+                              onChanged: (value) =>
+                                  controller.isVendor.value = value!,
+                            ),
+                          ),
+                          const Text('¿Eres un vendedor?'),
+                        ],
+                      ),
+
                       /// Signup Button
                       SizedBox(
                         width: double.infinity,
