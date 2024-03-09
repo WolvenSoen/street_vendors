@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:street_vendors/src/common/components/loaders/loaders.dart';
 import 'package:street_vendors/src/data/repositories/user/user_repository.dart';
 import 'package:street_vendors/src/features/authentication/models/user_model.dart';
@@ -9,6 +10,7 @@ class UserController extends GetxController{
 
   Rx<UserModel> user = UserModel.empty().obs;
   final userRepository = Get.put(UserRepository());
+  late bool isVendor;
 
   @override
   void onInit() {
@@ -16,31 +18,36 @@ class UserController extends GetxController{
     fetchUser();
   }
 
-
-
   Future<void> save(UserCredential? userCredentials) async {
     try{
 
-      if(userCredentials != null){
+      // Refresh user
+      await fetchUser();
 
-        final lastName = userCredentials.user?.displayName?.split(' ').last ?? '';
-        final user = userCredentials.user;
+      if(user.value.id.isEmpty){
+        if(userCredentials != null){
+
+          final lastName = userCredentials.user?.displayName?.split(' ').last ?? '';
+          final user = userCredentials.user;
 
 
-        final userModel = UserModel(
-          id: user!.uid,
-          fullName: user.displayName ?? '',
-          firstName: user.displayName ?? '',
-          lastName: lastName,
-          isVendor: false,
-          email: user.email ?? '',
-          phoneNumber: user.phoneNumber ?? '',
-          profilePicture: user.photoURL ?? '',
-        );
+          final userModel = UserModel(
+            id: user!.uid,
+            fullName: user.displayName ?? '',
+            firstName: user.displayName ?? '',
+            lastName: lastName,
+            isVendor: false,
+            email: user.email ?? '',
+            phoneNumber: user.phoneNumber ?? '',
+            profilePicture: user.photoURL ?? '',
+          );
 
-        // SAVE USER TO FIRESTORE
-        await UserRepository.instance.saveUser(userModel);
+          // SAVE USER TO FIRESTORE
+          await UserRepository.instance.saveUser(userModel);
+        }
       }
+
+
 
     } catch(e){
       Loaders.errorSnackBar(
@@ -55,6 +62,11 @@ class UserController extends GetxController{
     try{
       final user = await userRepository.fetch();
       this.user(user);
+
+      if(user.isVendor) {
+        isVendor = true;
+      }
+
     } catch(e){
       user(UserModel.empty());
       Loaders.errorSnackBar(
@@ -63,5 +75,37 @@ class UserController extends GetxController{
       );
     }
   }
+
+  Future<void> uploadUserProfilePicture() async{
+
+    try{
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery, imageQuality: 70, maxWidth: 512, maxHeight: 512);
+      if(image != null){
+
+        final imageUrl = await userRepository.uploadImage('users/images/profile', image);
+
+        Map<String, dynamic> data = {
+          'profilePicture': imageUrl,
+        };
+
+        await userRepository.singleModify(data);
+
+        // UPDATE RX VALUES
+        user.update((val) {
+          val!.profilePicture = imageUrl;
+        });
+
+        Loaders.successSnackBar(title: 'Listo!', message: 'Foto de perfil actualizada correctamente');
+      }
+    } catch (e){
+      Loaders.errorSnackBar(
+        title: 'Oops!',
+        message: e.toString()
+      );
+    }
+
+
+  }
+
 
 }

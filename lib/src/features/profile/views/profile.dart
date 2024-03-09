@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:street_vendors/src/data/repositories/authentication/authentication_repository.dart';
+import 'package:street_vendors/src/features/profile/views/edit_profile.dart';
+import 'package:street_vendors/src/features/streeter/views/inventory/inventory.dart';
 import 'package:street_vendors/src/utils/constants/text_strings.dart';
 import 'package:street_vendors/src/utils/helpers/helpers.dart';
 
@@ -14,7 +16,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final controller = UserController.instance;
+    UserController controller = Get.find();
     final authController = AuthenticationRepository.instance;
 
     final dark = Helpers.isDarkMode(context);
@@ -59,7 +61,7 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   trailing: IconButton(
                     onPressed: () {
-
+                      Get.to(EditProfileScreen());
                     },
                     icon: Icon(
                       Icons.edit,
@@ -75,7 +77,27 @@ class ProfileScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             /// BODY
-            /// FOOTER
+            // VENDOR INVENTORY IF VENDOR
+            if (controller.user.value.isVendor)
+              Column(
+                children: [
+                  ListTile(
+                    title: const Text('Inventario'),
+                    subtitle: const Text('Administra tus productos y/o servicios'),
+                    leading: const Icon(Icons.store),
+                    trailing: const Icon(Icons.arrow_forward_ios),
+                    onTap: () {
+                      Get.to(InventoryScreen());
+                    },
+                  ),
+                ],
+              ),
+            const SizedBox(height: 20),
+            const Divider(
+              color: AppColors.lightGrey,
+              thickness: 0.5,
+            ),
+            const SizedBox(height: 20),
             // LOGOUT BUTTON
             ElevatedButton(
               onPressed: () {
