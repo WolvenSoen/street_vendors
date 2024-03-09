@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:street_vendors/src/utils/constants/text_strings.dart';
+import 'package:street_vendors/src/utils/helpers/helpers.dart';
 
+import '../../../utils/constants/colors.dart';
 import '../controllers/user_controller.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -10,34 +12,63 @@ class ProfileScreen extends StatelessWidget {
   // USER PROFILE SETTINGS
   @override
   Widget build(BuildContext context) {
+    final controller = UserController.instance;
 
-    final controller = Get.put(UserController());
+    final dark = Helpers.isDarkMode(context);
 
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            /// HEADER
-            children: [
-              SizedBox(height: 40),
-              Padding(
+        body: SafeArea(
+      child: SingleChildScrollView(
+        child: Column(
+          /// HEADER
+          children: [
+            const SizedBox(height: 40),
+            Container(
+              child: Padding(
                 padding: EdgeInsets.all(8.0),
                 child: ListTile(
-                  title: Text('Nombre'),
-                  subtitle: Text('Nombre de usuario'),
-                  leading: CircleAvatar(
-                    radius: 50,
-                    backgroundImage: AssetImage(TextStrings.OnboardingImageDark3),
+                  title: Obx(() => Text(
+                      '${controller.user.value.firstName} ${controller.user.value.lastName}')),
+                  subtitle: Obx(() => RichText(
+                        text: TextSpan(
+                          text: controller.user.value.email,
+                          style: const TextStyle(
+                            color: Colors.red,
+                            fontSize: 12,
+                          ),
+                        ),
+                      )),
+                  leading: Obx(
+                    ()=> CircleAvatar(
+                      radius: 30,
+                      backgroundImage:
+                          controller.user.value.profilePicture.isNotEmpty
+                              ? NetworkImage(controller.user.value.profilePicture)
+                              : const AssetImage(TextStrings.AvatarDark) as ImageProvider,
+                    ),
                   ),
-                  trailing: Icon(Icons.edit),
+                  trailing: IconButton(
+                    onPressed: () {
+
+                    },
+                    icon: Icon(
+                      Icons.edit,
+                      color: dark? AppColors.light: Colors.black,
+                    ),
+                  ),
                 ),
               ),
-
-            ],
+            ),
+            const Divider(
+              color: AppColors.lightGrey,
+              thickness: 0.5,
+            ),
+            const SizedBox(height: 20),
             /// BODY
-          ),
+
+          ],
         ),
-      )
-    );
+      ),
+    ));
   }
 }

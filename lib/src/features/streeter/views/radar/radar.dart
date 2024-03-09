@@ -16,13 +16,7 @@ class RadarScreen extends StatelessWidget {
         child: Column(
           children: [
             SizedBox(height: 40),
-            Padding(
-              padding: EdgeInsets.all(8.0),
-              child: ListTile(
-                title: Text('Nombre'),
-                subtitle: Obx(() => Text(userController.user.value.id)),
-              ),
-            ),
+            Center(child: Text('Radar'))
           ],
         ),
       )
