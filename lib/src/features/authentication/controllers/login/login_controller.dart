@@ -87,7 +87,7 @@ class LoginController extends GetxController {
       final userCredentials = await AuthenticationRepository.instance.signInWithGoogle();
 
       // SAVE USER TO FIRESTORE
-      await userController.saveUser(userCredentials);
+      await userController.save(userCredentials);
 
       // LOADER STOP
       FullScreenLoader.stopLoading();

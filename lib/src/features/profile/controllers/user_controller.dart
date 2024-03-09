@@ -7,7 +7,16 @@ import 'package:street_vendors/src/features/authentication/models/user_model.dar
 class UserController extends GetxController{
   static UserController get instance => Get.find();
 
-  Future<void> saveUser(UserCredential? userCredentials) async {
+  Rx<UserModel> user = UserModel.empty().obs;
+  final userRepository = Get.put(UserRepository());
+
+  @override
+  void onInit() {
+    super.onInit();
+    fetchUser();
+  }
+
+  Future<void> save(UserCredential? userCredentials) async {
     try{
 
       if(userCredentials != null){
@@ -26,10 +35,23 @@ class UserController extends GetxController{
 
         // SAVE USER TO FIRESTORE
         await UserRepository.instance.saveUser(userModel);
-
       }
 
     } catch(e){
+      Loaders.errorSnackBar(
+        title: 'Oops!',
+        message: e.toString()
+      );
+    }
+  }
+
+
+  Future<void> fetchUser() async {
+    try{
+      final user = await userRepository.fetch();
+      this.user(user);
+    } catch(e){
+      user(UserModel.empty());
       Loaders.errorSnackBar(
         title: 'Oops!',
         message: e.toString()

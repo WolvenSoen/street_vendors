@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import '../../features/profile/views/profile.dart';
+import '../../features/streeter/views/radar/radar.dart';
 import '../../utils/helpers/helpers.dart';
 
 class NavigationMenu extends StatelessWidget {
   const NavigationMenu({super.key});
 
+
+
   @override
   Widget build(BuildContext context) {
-
     final controller = Get.put(NavigationController());
 
     final dark = Helpers.isDarkMode(context);
@@ -24,7 +26,6 @@ class NavigationMenu extends StatelessWidget {
           onDestinationSelected: (index) => controller.selectedIndex.value = index,
           destinations: const [
             NavigationDestination(icon: Icon(Icons.radar),label: 'Radar',),
-            NavigationDestination(icon: Icon(Icons.search),label: 'Search',),
             NavigationDestination(icon: Icon(Icons.favorite),label: 'Favorite',),
             NavigationDestination(icon: Icon(Icons.person),label: 'Profile',),
           ],
@@ -39,9 +40,12 @@ class NavigationController extends GetxController{
   final Rx<int> selectedIndex = 0.obs;
 
   final screens = [
-    Container(color: Colors.red),
-    Container(color: Colors.green),
+    Container(
+      child: const RadarScreen(),
+    ),
     Container(color: Colors.blue),
-    Container(color: Colors.yellow),
+    Container(
+      child: const ProfileScreen(),
+    ),
   ];
 }

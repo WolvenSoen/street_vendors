@@ -5,7 +5,6 @@ import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:street_vendors/src/common/components/bottom_nav_menu.dart';
 import 'package:street_vendors/src/common/components/loaders/loaders.dart';
-import 'package:street_vendors/src/features/authentication/controllers/signup/verify_email_controller.dart';
 import 'package:street_vendors/src/features/authentication/views/login/login.dart';
 import 'package:street_vendors/src/features/authentication/views/onboarding/onboarding.dart';
 import 'package:street_vendors/src/features/authentication/views/signup/verify_email.dart';
@@ -15,6 +14,8 @@ class AuthenticationRepository extends GetxController{
 
   final deviceStorage = GetStorage();
   final _auth = FirebaseAuth.instance;
+
+  User? get authUser => _auth.currentUser;
 
   @override
   void onReady(){

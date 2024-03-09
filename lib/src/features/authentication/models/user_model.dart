@@ -43,7 +43,7 @@ class UserModel {
   };
 
   // CONVERT FROM JSON TO MODEL
-/*  factory UserModel.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> document){
+  factory UserModel.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> document){
     if(document.data() != null){
       final data = document.data()!;
       return UserModel(
@@ -55,5 +55,6 @@ class UserModel {
         profilePicture: data['profilePicture'] ?? '',
       );
     }
-  }*/
+    return UserModel.empty();
+  }
 }

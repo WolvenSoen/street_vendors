@@ -13,4 +13,8 @@ class TextStrings{
   static const String OnboardingImageDark2 = 'assets/images/onboarding_images/ob_item_dark.png';
   static const String OnboardingImageLight3 = 'assets/images/onboarding_images/ob_persons_light.png';
   static const String OnboardingImageDark3 = 'assets/images/onboarding_images/ob_persons_dark.png';
+
+  // Placeholder Images
+  static const String AvatarDark = 'assets/images/placeholder_images/avatar_dark.png';
+  static const String AvatarLight = 'assets/images/placeholder_images/avatar_light.png';
 }
