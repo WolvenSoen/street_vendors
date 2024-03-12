@@ -50,7 +50,7 @@ class ItemModel {
       return ItemModel(
         id: document.id,
         itemName: data['itemName'] ?? '',
-        itemPictures: data['itemPicture'] ?? [],
+        itemPictures: List<String>.from(data['itemPictures'] ?? []),
         itemDescription: data['itemDescription'] ?? '',
         itemPrice: data['itemPrice'] ?? 0.0,
         itemStock: data['itemStock'] ?? 0,

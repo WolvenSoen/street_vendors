@@ -8,27 +8,25 @@ class ManageItemScreen extends StatelessWidget {
 
   String id = "";
 
-  final controller = Get.put(InventoryController());
-
   @override
   Widget build(BuildContext context) {
+    final controller = InventoryController.instance;
+
     String title = "Creando";
 
     if (id != "") {
       title = "Modificando";
 
       // GET ITEM TO MODIFY
-      for (var element in controller.items) {
-        if (element.id == id) {
-          controller.itemId.value = element.id;
-          controller.itemName.text = element.itemName;
-          controller.itemDescription.text = element.itemDescription;
-          controller.itemStock.text = element.itemStock.toString();
-          controller.itemPrice.text = element.itemPrice.toString();
-          controller.isActive.value = element.isActive;
-          controller.itemPictures.value = element.itemPictures;
-        }
-      }
+      final item = controller.items.firstWhere((element) => element.id == id);
+
+      controller.itemId.value = item.id;
+      controller.itemName.text = item.itemName;
+      controller.itemDescription.text = item.itemDescription;
+      controller.itemStock.text = item.itemStock.toString();
+      controller.itemPrice.text = item.itemPrice.toString();
+      controller.isActive.value = item.isActive;
+      controller.itemPictures.value = item.itemPictures.obs;
     } else {
       controller.itemId.value = "";
       controller.itemName.text = "";
@@ -41,13 +39,15 @@ class ManageItemScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(''),
+        title: Text(
+          "$title un item",
+          style: const TextStyle(fontSize: 20),
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const SizedBox(height: 30),
-            Center(child: Text('$title un item')),
+            const SizedBox(height: 20),
             if (id != "")
               Center(
                   child: Text('ID: $id', style: const TextStyle(fontSize: 20))),
@@ -66,9 +66,22 @@ class ManageItemScreen extends StatelessWidget {
                         itemBuilder: (context, index) {
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child:
+                            child: Stack(
+                              children: [
                                 Image.network(controller.itemPictures[index],
                                     width: 200, height: 200, fit: BoxFit.cover),
+                                Positioned(
+                                  top: 0,
+                                  right: 0,
+                                  child: IconButton(
+                                    icon: Icon(Icons.delete, color: Colors.red),
+                                    onPressed: () {
+                                      controller.removePicture(index);
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
                           );
                         },
                       ),
@@ -160,11 +173,51 @@ class ManageItemScreen extends StatelessWidget {
                       padding: const EdgeInsets.all(20.0),
                       child: ElevatedButton(
                         onPressed: () {
-                          id == '' ? controller.saveItem() : controller.updateItem();
+                          id == ''
+                              ? controller.saveItem()
+                              : controller.updateItem();
                         },
                         child: const Text('Guardar'),
                       ),
                     ),
+                    Divider(
+                      color: Colors.grey,
+                    ),
+
+                    // DELETE BUTTON
+                    if (id != "")
+                      Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: OutlinedButton(
+                          onPressed: () {
+                            /*controller.deleteItem();*/
+
+                            // SHOW DIALOG TO CONFIRM
+                            Get.defaultDialog(
+                              title: 'Eliminar',
+                              middleText:
+                                  '¿Estás seguro que deseas eliminar este item?',
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Get.back();
+                                  },
+                                  child: const Text('Cancelar'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    controller.deleteItem();
+                                  },
+                                  child: const Text('Eliminar'),
+                                ),
+                              ],
+                            );
+
+                          },
+                          child: const Text('Eliminar'),
+                        ),
+                      ),
+
                   ],
                 ))
           ],

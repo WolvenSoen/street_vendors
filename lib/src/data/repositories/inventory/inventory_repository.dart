@@ -38,6 +38,7 @@ class InventoryRepository extends GetxController{
     } on FormatException catch (e){
       throw 'Error: $e';
     } catch (e){
+      print(e.toString());
       throw 'Error: $e';
     }
   }
@@ -47,20 +48,10 @@ class InventoryRepository extends GetxController{
 
       // GET USER'S INVENTORY ITEMS
       final snapshot = await _db.collection('users').doc(controller.user.value.id).collection('inventory').get();
-      return snapshot.docs.map((e) => ItemModel.fromSnapshot(e)).toList();
+      final list = snapshot.docs.map((e) => ItemModel.fromSnapshot(e)).toList();
 
-    } on FirebaseException catch (e){
-      throw 'Error: $e';
-    } on FormatException catch (e){
-      throw 'Error: $e';
-    } catch (e){
-      throw 'Error: $e';
-    }
-  }
+      return list;
 
-  Future<void> modifyItem(UserModel updatedUser) async{
-    try {
-      /*await _db.collection('users').doc(updatedUser.id).update(updatedUser.toJson());*/
     } on FirebaseException catch (e){
       throw 'Error: $e';
     } on FormatException catch (e){
@@ -82,14 +73,15 @@ class InventoryRepository extends GetxController{
     }
   }
 
-  Future<void> deleteItem(String userId) async{
+  Future<void> deleteItem(String itemId) async{
     try {
-      /*await _db.collection('inventories').doc(userId).delete();*/
+      await _db.collection('users').doc(controller.user.value.id).collection('inventory').doc(itemId).delete();
     } on FirebaseException catch (e){
       throw 'Error: $e';
     } on FormatException catch (e){
       throw 'Error: $e';
     } catch (e){
+      print(e);
       throw 'Error: $e';
     }
   }
