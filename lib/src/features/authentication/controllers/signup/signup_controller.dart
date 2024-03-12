@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -47,6 +48,9 @@ class SignupController extends GetxController{
         password.text,
       );
 
+      // GET FCM TOKEN
+      final fcmToken = await FirebaseMessaging.instance.getToken();
+
       // SAVE ON FIRESTORE
       final savingUser = UserModel(
         id: userCredential.user!.uid,
@@ -57,6 +61,7 @@ class SignupController extends GetxController{
         lastName: lastName.text,
         phoneNumber: phoneNumber.text,
         profilePicture: '',
+        fcmtoken: fcmToken ?? '',
       );
 
       final userRepository = Get.put(UserRepository());

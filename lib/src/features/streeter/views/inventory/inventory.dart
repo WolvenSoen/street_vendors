@@ -73,12 +73,15 @@ class InventoryScreen extends StatelessWidget {
             ),
           ),
         ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Get.to(ManageItemScreen(id: ''),);
-        },
-        backgroundColor: AppColors.primaryColor,
-        child: const Icon(Icons.add),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: FloatingActionButton(
+          onPressed: () {
+            Get.to(ManageItemScreen(id: ''),);
+          },
+          backgroundColor: AppColors.primaryColor,
+          child: const Icon(Icons.add),
+        ),
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:street_vendors/src/common/components/loaders/loaders.dart';
@@ -33,6 +34,8 @@ class UserController extends GetxController{
           final lastName = userCredentials.user?.displayName?.split(' ').last ?? '';
           final user = userCredentials.user;
 
+          // GET FCM TOKEN
+          final fcmToken = await FirebaseMessaging.instance.getToken();
 
           final userModel = UserModel(
             id: user!.uid,
@@ -43,6 +46,7 @@ class UserController extends GetxController{
             email: user.email ?? '',
             phoneNumber: user.phoneNumber ?? '',
             profilePicture: user.photoURL ?? '',
+            fcmtoken: fcmToken ?? '',
           );
 
           // SAVE USER TO FIRESTORE

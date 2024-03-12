@@ -8,6 +8,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:street_vendors/src/bindings/bindings.dart';
 import 'package:street_vendors/src/data/repositories/authentication/authentication_repository.dart';
 import 'package:street_vendors/src/routing/routes.dart';
+import 'package:street_vendors/src/utils/api/firebase_api.dart';
 import 'package:street_vendors/src/utils/constants/colors.dart';
 import 'package:street_vendors/src/utils/theme/theme.dart';
 
@@ -15,7 +16,8 @@ import 'firebase_options.dart';
 
 Future<void> main() async {
   // INIT WIDGETS BINDING
-  final WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  final WidgetsBinding widgetsBinding = WidgetsFlutterBinding
+      .ensureInitialized();
 
   // GET LOCAL STORAGE
   await GetStorage.init();
@@ -26,6 +28,10 @@ Future<void> main() async {
   // INIT FIREBASE
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform)
       .then((FirebaseApp value) => Get.put(AuthenticationRepository()));
+
+  // INIT FIREBASE MESSAGING
+  await FirebaseAPI().init();
+
 
   runApp(const MyApp());
 }

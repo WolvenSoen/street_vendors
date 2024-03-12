@@ -5,7 +5,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../../features/authentication/models/user_model.dart';
 import '../../../features/profile/controllers/user_controller.dart';
 import '../../../features/streeter/models/item_model.dart';
 
