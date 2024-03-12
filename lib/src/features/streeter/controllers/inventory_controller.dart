@@ -1,8 +1,5 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:street_vendors/src/common/components/fullscreen_loader_screen.dart';
 import 'package:street_vendors/src/common/components/loaders/loaders.dart';
@@ -13,7 +10,6 @@ import '../../../utils/network/network_manager.dart';
 
 class InventoryController extends GetxController {
   static InventoryController get instance => Get.find();
-
 
   // Variables
   final isActive = false.obs;

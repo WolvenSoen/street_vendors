@@ -69,19 +69,19 @@
     },
     {
       "name": "cloud_firestore",
-      "rootUri": "file:///C:/Users/Patricio%20Contreras/AppData/Local/Pub/Cache/hosted/pub.dev/cloud_firestore-4.15.7",
+      "rootUri": "file:///C:/Users/Patricio%20Contreras/AppData/Local/Pub/Cache/hosted/pub.dev/cloud_firestore-4.15.8",
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
     {
       "name": "cloud_firestore_platform_interface",
-      "rootUri": "file:///C:/Users/Patricio%20Contreras/AppData/Local/Pub/Cache/hosted/pub.dev/cloud_firestore_platform_interface-6.1.8",
+      "rootUri": "file:///C:/Users/Patricio%20Contreras/AppData/Local/Pub/Cache/hosted/pub.dev/cloud_firestore_platform_interface-6.1.9",
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
     {
       "name": "cloud_firestore_web",
-      "rootUri": "file:///C:/Users/Patricio%20Contreras/AppData/Local/Pub/Cache/hosted/pub.dev/cloud_firestore_web-3.10.7",
+      "rootUri": "file:///C:/Users/Patricio%20Contreras/AppData/Local/Pub/Cache/hosted/pub.dev/cloud_firestore_web-3.10.8",
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
@@ -207,19 +207,19 @@
     },
     {
       "name": "firebase_auth",
-      "rootUri": "file:///C:/Users/Patricio%20Contreras/AppData/Local/Pub/Cache/hosted/pub.dev/firebase_auth-4.17.7",
+      "rootUri": "file:///C:/Users/Patricio%20Contreras/AppData/Local/Pub/Cache/hosted/pub.dev/firebase_auth-4.17.8",
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
     {
       "name": "firebase_auth_platform_interface",
-      "rootUri": "file:///C:/Users/Patricio%20Contreras/AppData/Local/Pub/Cache/hosted/pub.dev/firebase_auth_platform_interface-7.1.7",
+      "rootUri": "file:///C:/Users/Patricio%20Contreras/AppData/Local/Pub/Cache/hosted/pub.dev/firebase_auth_platform_interface-7.1.8",
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
     {
       "name": "firebase_auth_web",
-      "rootUri": "file:///C:/Users/Patricio%20Contreras/AppData/Local/Pub/Cache/hosted/pub.dev/firebase_auth_web-5.9.7",
+      "rootUri": "file:///C:/Users/Patricio%20Contreras/AppData/Local/Pub/Cache/hosted/pub.dev/firebase_auth_web-5.9.8",
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
@@ -848,7 +848,7 @@
       "languageVersion": "3.2"
     }
   ],
-  "generated": "2024-03-12T20:08:08.083236Z",
+  "generated": "2024-03-12T20:44:56.425773Z",
   "generator": "pub",
   "generatorVersion": "3.2.5"
 }
