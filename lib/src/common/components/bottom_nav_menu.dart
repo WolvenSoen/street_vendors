@@ -27,7 +27,7 @@ class NavigationMenu extends StatelessWidget {
           onDestinationSelected: (index) => controller.selectedIndex.value = index,
           destinations: const [
             NavigationDestination(icon: Icon(Icons.radar),label: 'Radar',),
-            NavigationDestination(icon: Icon(Icons.favorite),label: 'Favoritos',),
+/*            NavigationDestination(icon: Icon(Icons.favorite),label: 'Favoritos',),*/
             NavigationDestination(icon: Icon(Icons.person),label: 'Perfil',),
           ],
         ),
@@ -45,9 +45,9 @@ class NavigationController extends GetxController{
     Container(
       child: const RadarScreen(),
     ),
-    Container(
+/*    Container(
       child: const FavoritesScreen(),
-    ),
+    ),*/
     Container(
       child: const ProfileScreen(),
     ),

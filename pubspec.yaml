@@ -28,6 +28,7 @@ dependencies:
   google_fonts: ^4.0.3
   flutter_native_splash: ^2.3.2
   smooth_page_indicator: ^1.1.0
+  flutter_slidable: ^3.0.1
   iconsax: ^0.0.8
   # Firebase packages
   firebase_core: ^2.26.0

@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:street_vendors/src/data/repositories/authentication/authentication_repository.dart';
 import 'package:street_vendors/src/features/profile/views/edit_profile.dart';
+import 'package:street_vendors/src/features/streeter/views/favorites/favorites.dart';
 import 'package:street_vendors/src/features/streeter/views/inventory/inventory.dart';
 import 'package:street_vendors/src/utils/constants/text_strings.dart';
 import 'package:street_vendors/src/utils/helpers/helpers.dart';
 
 import '../../../utils/constants/colors.dart';
+import '../../streeter/controllers/inventory_controller.dart';
 import '../controllers/user_controller.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -17,6 +19,7 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
 
     UserController controller = Get.find();
+    final inventoryController = Get.put(InventoryController());
     final authController = AuthenticationRepository.instance;
 
     final dark = Helpers.isDarkMode(context);
@@ -88,6 +91,20 @@ class ProfileScreen extends StatelessWidget {
                     trailing: const Icon(Icons.arrow_forward_ios),
                     onTap: () {
                       Get.to(InventoryScreen());
+                    },
+                  ),
+                ],
+              ),
+            if (!controller.user.value.isVendor)
+              Column(
+                children: [
+                  ListTile(
+                    title: const Text('Favoritos'),
+                    subtitle: const Text('Revisa el estado de tus vendedores favoritos'),
+                    leading: const Icon(Icons.favorite),
+                    trailing: const Icon(Icons.arrow_forward_ios),
+                    onTap: () {
+                      Get.to(FavoritesScreen());
                     },
                   ),
                 ],
