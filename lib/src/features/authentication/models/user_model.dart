@@ -11,6 +11,7 @@ class UserModel {
   String phoneNumber;
   String profilePicture;
   String fcmtoken;
+  bool isSelling;
 
   UserModel({
     required this.id,
@@ -22,6 +23,7 @@ class UserModel {
     required this.phoneNumber,
     required this.profilePicture,
     required this.fcmtoken,
+    required this.isSelling,
   });
 
   String get formatedPhoneNumber => Formatters.formatPhoneNumber(phoneNumber);
@@ -36,6 +38,7 @@ class UserModel {
     phoneNumber: '',
     profilePicture: '',
     fcmtoken: '',
+    isSelling: false,
   );
 
   // CONVERT TO JSON
@@ -49,6 +52,7 @@ class UserModel {
     'phoneNumber': phoneNumber,
     'profilePicture': profilePicture,
     'fcmtoken': fcmtoken,
+    'isSelling': isSelling,
   };
 
   // CONVERT FROM JSON TO MODEL
@@ -65,6 +69,7 @@ class UserModel {
         phoneNumber: data['phoneNumber'] ?? '',
         profilePicture: data['profilePicture'] ?? '',
         fcmtoken: data['fcmtoken'] ?? '',
+        isSelling: data['isSelling'] ?? false,
       );
     }
     return UserModel.empty();

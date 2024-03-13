@@ -58,7 +58,7 @@ class Loaders{
       snackPosition: SnackPosition.BOTTOM,
       duration: Duration(seconds: duration),
       margin: const EdgeInsets.all(10),
-      icon: const Icon(Icons.info, color: Colors.grey),
+      icon: const Icon(Icons.info, color: Colors.black),
     );
   }
 }

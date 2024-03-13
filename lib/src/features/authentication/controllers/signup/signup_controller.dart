@@ -1,6 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:street_vendors/src/data/repositories/radar/radar_repository.dart';
 
 import '../../../../common/components/fullscreen_loader_screen.dart';
 import '../../../../common/components/loaders/loaders.dart';
@@ -62,10 +63,12 @@ class SignupController extends GetxController{
         phoneNumber: phoneNumber.text,
         profilePicture: '',
         fcmtoken: fcmToken ?? '',
+        isSelling: false,
       );
 
       final userRepository = Get.put(UserRepository());
       await userRepository.saveUser(savingUser);
+
 
       FullScreenLoader.stopLoading();
 

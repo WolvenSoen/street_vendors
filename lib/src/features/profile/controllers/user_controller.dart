@@ -16,6 +16,8 @@ class UserController extends GetxController{
   final userRepository = Get.put(UserRepository());
   late bool isVendor;
 
+  late bool isSelling;
+
   @override
   void onInit() {
     super.onInit();
@@ -47,6 +49,7 @@ class UserController extends GetxController{
             phoneNumber: user.phoneNumber ?? '',
             profilePicture: user.photoURL ?? '',
             fcmtoken: fcmToken ?? '',
+            isSelling: false,
           );
 
           // SAVE USER TO FIRESTORE
@@ -72,6 +75,10 @@ class UserController extends GetxController{
 
       if(user.isVendor) {
         isVendor = true;
+      }
+
+      if(user.isSelling) {
+        isSelling = true;
       }
 
     } catch(e){
