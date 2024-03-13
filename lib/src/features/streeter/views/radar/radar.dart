@@ -13,6 +13,7 @@ class RadarScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     final radarController = Get.put(RadarController());
     final dark = Helpers.isDarkMode(context);
     final userController = Get.put(UserController());
@@ -22,16 +23,9 @@ class RadarScreen extends StatelessWidget {
     return Obx(
       () => Scaffold(
         appBar: AppBar(
-          title: Text('Radar: ${userController.user.value.fullName}'),
+          title: Text('Bienvenido ${userController.user.value.firstName}! ', style: TextStyle(fontSize: 25),),
           centerTitle: true,
           backgroundColor: dark ? Colors.black : Colors.white,
-          elevation: 0,
-          actions: [
-            IconButton(
-              onPressed: () {},
-              icon: Icon(Iconsax.logout, color: AppColors.primaryColor),
-            ),
-          ],
         ),
         body: GoogleMap(
           onMapCreated: (GoogleMapController controller) {
@@ -49,19 +43,19 @@ class RadarScreen extends StatelessWidget {
             ? Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: FloatingActionButton(
-                  onPressed: () {
-                    radarController.toggleSelling();
-                  },
-                  backgroundColor: dark ? Colors.black : Colors.white,
-                  child: Icon(
-                    userController.user.value.isSelling
-                        ? Iconsax.shopping_cart5
-                        : Iconsax.shopping_cart,
-                    color: userController.user.value.isSelling
-                        ? AppColors.primaryColor
-                        : Colors.grey,
+                    onPressed: () {
+                      radarController.toggleSelling();
+                    },
+                    backgroundColor: dark ? Colors.black : Colors.white,
+                    child: Obx(
+                      ()=> Icon(
+                        radarController.sellingStatus.value
+                            ? Iconsax.shopping_cart5
+                            : Iconsax.shopping_cart,
+                        color: radarController.sellingStatus.value? AppColors.primaryColor : Colors.grey,
+                      ),
+                    ),
                   ),
-                ),
               )
             : Padding(
                 padding: const EdgeInsets.all(20.0),
@@ -70,7 +64,7 @@ class RadarScreen extends StatelessWidget {
                     radarController.getVendors();
                   },
                   backgroundColor: dark ? Colors.black : Colors.white,
-                  child: Icon(Icons.settings_input_antenna_rounded,
+                  child: const Icon(Icons.settings_input_antenna_rounded,
                       color: AppColors.primaryColor),
                 ),
               ),

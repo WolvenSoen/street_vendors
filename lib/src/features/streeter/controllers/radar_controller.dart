@@ -27,9 +27,20 @@ class RadarController extends GetxController {
 
   RxBool refreshData = true.obs;
 
+  RxBool sellingStatus = false.obs;
+
   @override
   void onInit() {
-    /*getLocationUpdates();*/
+    getLocationUpdates();
+
+    // LISTEN TO USER CONTROLLER TO REFRESH DATA TO KNOW IF USER IS SELLING
+    ever(userController.user, (_) {
+      refreshData.value = !refreshData.value;
+      sellingStatus.value = userController.user.value.isSelling;
+      getVendors();
+    });
+
+
     super.onInit();
   }
 
@@ -63,8 +74,6 @@ class RadarController extends GetxController {
         cameraToPosition(currentPosition.value);
       }
     });
-
-
   }
 
   Future<void> cameraToPosition(LatLng pos) async {
@@ -117,7 +126,6 @@ class RadarController extends GetxController {
             ),
             onTap: () {
               //TRIGER DIALOG WITH VENDOR INFO
-
               try{
                 Loaders.infoSnackBar(
                     title: 'Vendedor',
@@ -126,10 +134,6 @@ class RadarController extends GetxController {
 
                 Loaders.errorSnackBar(title: 'Oops!', message: e.toString());
               }
-
-              // FIXME: FIX CORRECT BUTTON NOT SHOWING ON FIRST LOAD
-              // FIXME: GET VENDOR PRECISE LOCATION
-
             },
           ),
         );
@@ -156,11 +160,14 @@ class RadarController extends GetxController {
       }
 
       // TOGGLE VENDOR STATUS
+
       final radarRepository = Get.put(RadarRepository());
+      sellingStatus.value = !sellingStatus.value;
       await radarRepository.toggleVendorStatus(userController.user.value.id!, currentPosition.value);
 
+      getVendors();
 
-      if(userController.user.value.isSelling){
+      if(sellingStatus.value){
         Loaders.warningSnackBar(
             title: 'Estás vendiendo!', message: 'Ahora aparecerás en el radar de compradores.');
       } else {

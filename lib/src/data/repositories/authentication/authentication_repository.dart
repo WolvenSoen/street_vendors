@@ -86,6 +86,7 @@ class AuthenticationRepository extends GetxController{
     try {
 
       await _auth.signOut();
+
       Get.offAll(() => const LoginScreen());
 
     } on FirebaseAuthException catch (e){
