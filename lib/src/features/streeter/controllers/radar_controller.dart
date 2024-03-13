@@ -21,8 +21,6 @@ class RadarController extends GetxController {
 
   final Location location = Location();
 
-  RxBool isSelling = false.obs;
-
   RxList<Marker> markers = <Marker>[].obs;
 
   Rx<LatLng> currentPosition = const LatLng(23.521563, -122.677433).obs;
@@ -129,6 +127,8 @@ class RadarController extends GetxController {
                 Loaders.errorSnackBar(title: 'Oops!', message: e.toString());
               }
 
+              // FIXME: FIX CORRECT BUTTON NOT SHOWING ON FIRST LOAD
+              // FIXME: GET VENDOR PRECISE LOCATION
 
             },
           ),
@@ -159,9 +159,8 @@ class RadarController extends GetxController {
       final radarRepository = Get.put(RadarRepository());
       await radarRepository.toggleVendorStatus(userController.user.value.id!, currentPosition.value);
 
-      isSelling.toggle();
 
-      if(!isSelling.value){
+      if(userController.user.value.isSelling){
         Loaders.warningSnackBar(
             title: 'Estás vendiendo!', message: 'Ahora aparecerás en el radar de compradores.');
       } else {

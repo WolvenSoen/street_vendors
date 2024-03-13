@@ -19,9 +19,21 @@ class RadarScreen extends StatelessWidget {
 
     const LatLng _center = LatLng(45.521563, -122.677433);
 
-    return Scaffold(
-      body: Obx(
-        () => GoogleMap(
+    return Obx(
+      () => Scaffold(
+        appBar: AppBar(
+          title: Text('Radar: ${userController.user.value.fullName}'),
+          centerTitle: true,
+          backgroundColor: dark ? Colors.black : Colors.white,
+          elevation: 0,
+          actions: [
+            IconButton(
+              onPressed: () {},
+              icon: Icon(Iconsax.logout, color: AppColors.primaryColor),
+            ),
+          ],
+        ),
+        body: GoogleMap(
           onMapCreated: (GoogleMapController controller) {
             radarController.mapController.complete(controller);
           },
@@ -31,39 +43,38 @@ class RadarScreen extends StatelessWidget {
           ),
           markers: Set<Marker>.of(radarController.markers),
         ),
+        floatingActionButtonLocation:
+            FloatingActionButtonLocation.miniCenterDocked,
+        floatingActionButton: userController.user.value.isVendor
+            ? Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: FloatingActionButton(
+                  onPressed: () {
+                    radarController.toggleSelling();
+                  },
+                  backgroundColor: dark ? Colors.black : Colors.white,
+                  child: Icon(
+                    userController.user.value.isSelling
+                        ? Iconsax.shopping_cart5
+                        : Iconsax.shopping_cart,
+                    color: userController.user.value.isSelling
+                        ? AppColors.primaryColor
+                        : Colors.grey,
+                  ),
+                ),
+              )
+            : Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: FloatingActionButton(
+                  onPressed: () {
+                    radarController.getVendors();
+                  },
+                  backgroundColor: dark ? Colors.black : Colors.white,
+                  child: Icon(Icons.settings_input_antenna_rounded,
+                      color: AppColors.primaryColor),
+                ),
+              ),
       ),
-      floatingActionButtonLocation:
-          FloatingActionButtonLocation.miniCenterDocked,
-
-      floatingActionButton: userController.user.value.isVendor? Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: FloatingActionButton(
-          onPressed: () {
-            radarController.toggleSelling();
-          },
-          backgroundColor: dark ? Colors.black : Colors.white,
-          child:
-          Obx(
-            () => Icon(
-              userController.user.value.isSelling
-                  ? Iconsax.shopping_cart5
-                  : Iconsax.shopping_cart,
-              color: radarController.isSelling.value
-                  ? Colors.grey
-                  : AppColors.primaryColor,
-            ),
-          ),
-        ),
-      ) : Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: FloatingActionButton(
-          onPressed: () {
-            radarController.getVendors();
-          },
-          backgroundColor: dark ? Colors.black : Colors.white,
-          child:Icon(Icons.settings_input_antenna_rounded, color: AppColors.primaryColor),
-            ),
-          ),
     );
   }
 }

@@ -11,12 +11,7 @@ class UserController extends GetxController{
 
   Rx<UserModel> user = UserModel.empty().obs;
 
-
-
   final userRepository = Get.put(UserRepository());
-  late bool isVendor;
-
-  late bool isSelling;
 
   @override
   void onInit() {
@@ -72,14 +67,6 @@ class UserController extends GetxController{
     try{
       final user = await userRepository.fetch();
       this.user(user);
-
-      if(user.isVendor) {
-        isVendor = true;
-      }
-
-      if(user.isSelling) {
-        isSelling = true;
-      }
 
     } catch(e){
       user(UserModel.empty());

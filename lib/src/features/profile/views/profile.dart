@@ -18,7 +18,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    UserController controller = Get.find();
+    final controller = UserController.instance;
     final inventoryController = Get.put(InventoryController());
     final authController = AuthenticationRepository.instance;
 

@@ -7,13 +7,14 @@ import '../../../utils/validators/validators.dart';
 import '../controllers/user_controller.dart';
 
 class EditProfileScreen extends StatelessWidget {
-  EditProfileScreen({super.key});
-
-  final userController = UserController.instance;
-  final controller = Get.put(EditProfileController());
+  const EditProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+
+    final userController = UserController.instance;
+    final controller = Get.put(EditProfileController());
+
     return Scaffold(
       appBar: AppBar(
       ),

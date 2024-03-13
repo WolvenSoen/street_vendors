@@ -37,7 +37,7 @@ class RadarRepository extends GetxController {
       final isSelling = user['isSelling'];
       await _db.collection('users').doc(vendorId).update({
         'isSelling': !isSelling,
-        'location': location.latitude.toString() + ',' + location.longitude.toString()
+        'location': '${location.latitude},${location.longitude}'
       });
     } on FirebaseException catch (e){
       throw 'Error: $e';
