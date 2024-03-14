@@ -17,4 +17,7 @@ class TextStrings{
   // Placeholder Images
   static const String AvatarDark = 'assets/images/placeholder_images/avatar_dark.png';
   static const String AvatarLight = 'assets/images/placeholder_images/avatar_light.png';
+
+  // Marker Images
+  static const String testMarker = 'assets/logos/vendor.png';
 }
