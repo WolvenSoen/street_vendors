@@ -14,13 +14,12 @@ class VendorInventoryController extends GetxController {
 
   @override
   void onInit() {
-    getVendorInventory();
     super.onInit();
   }
 
-  Future<List<ItemModel>> getVendorInventory() async {
+  Future<List<ItemModel>> getVendorInventory(String vendorId) async {
     try {
-      final items = await inventoryRepository.fetchInventory();
+      final items = await inventoryRepository.fetchVendorInventory(vendorId);
 
       this.items.assignAll(items);
 

@@ -15,6 +15,8 @@ class VendorInventoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final vendorInventoryController = Get.put(VendorInventoryController());
+    
+    
 
     final dark = Helpers.isDarkMode(context);
 
@@ -26,47 +28,48 @@ class VendorInventoryScreen extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        child: Obx(
-          () => FutureBuilder(
-            key: Key(vendorInventoryController.refreshData.value.toString()),
-            future: vendorInventoryController.getVendorInventory(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                //RETURN PROGRESS BAR INDICATOR
-                return const Center(
-                  child: LinearProgressIndicator(
-                    backgroundColor: AppColors.primaryColor,
-                    color: Colors.black,
+      body: Obx(
+        () => FutureBuilder(
+          key: Key(vendorInventoryController.refreshData.value.toString()),
+          future: vendorInventoryController.getVendorInventory(vendorId),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              //RETURN PROGRESS BAR INDICATOR
+              return const Center(
+                child: CircularProgressIndicator(
+                  backgroundColor: Colors.black,
+                  color: AppColors.primaryColor,
+                ),
+              );
+            }
+
+            if (vendorInventoryController.items.isEmpty) {
+              return const Column(
+                children: [
+                  SizedBox(height: 30),
+                  Center(
+                    child: Text('No tienes items en tu inventario aún'),
                   ),
-                );
-              }
+                ],
+              );
+            }
 
-              if (vendorInventoryController.items.isEmpty) {
-                return const Column(
-                  children: [
-                    SizedBox(height: 30),
-                    Center(
-                      child: Text('No tienes items en tu inventario aún'),
-                    ),
-                  ],
-                );
-              }
+            if (snapshot.hasError) {
+              return Center(
+                child: Text('Error: ${snapshot.error}'),
+              );
+            }
 
-              if (snapshot.hasError) {
-                return Center(
-                  child: Text('Error: ${snapshot.error}'),
-                );
-              }
+            final items = snapshot.data as List;
 
-              final items = snapshot.data as List;
-
-              return ListView.builder(
-                shrinkWrap: true,
-                itemCount: items.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(20.0),
+            return ListView.builder(
+              shrinkWrap: true,
+              itemCount: items.length,
+              itemBuilder: (context, index) {
+                // RETURN SCROLLEABLE LIST
+                return Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: SingleChildScrollView(
                     child: ListTile(
                       title: Text(items[index].itemName),
                       subtitle: Text(items[index].itemDescription),
@@ -127,11 +130,11 @@ class VendorInventoryScreen extends StatelessWidget {
                         );
                       },
                     ),
-                  );
-                },
-              );
-            },
-          ),
+                  ),
+                );
+              },
+            );
+          },
         ),
       ),
     );

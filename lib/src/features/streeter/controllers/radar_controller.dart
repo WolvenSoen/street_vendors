@@ -77,14 +77,14 @@ class RadarController extends GetxController {
           currentLocation.longitude != null) {
         currentPosition.value =
             LatLng(currentLocation.latitude!, currentLocation.longitude!);
-        cameraToPosition(currentPosition.value);
+        /*cameraToPosition(currentPosition.value);*/
       }
     });
   }
 
   Future<void> cameraToPosition(LatLng pos) async {
     final GoogleMapController controller = await mapController.future;
-    CameraPosition newCameraPosition = CameraPosition(target: pos, zoom: 18);
+    CameraPosition newCameraPosition = CameraPosition(target: pos, zoom: 6);
     await controller
         .animateCamera(CameraUpdate.newCameraPosition(newCameraPosition));
   }

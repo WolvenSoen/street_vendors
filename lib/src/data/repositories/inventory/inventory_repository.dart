@@ -42,6 +42,24 @@ class InventoryRepository extends GetxController{
     }
   }
 
+  Future<List<ItemModel>> fetchVendorInventory(String vendorId) async {
+    try {
+
+      // GET USER'S INVENTORY ITEMS
+      final snapshot = await _db.collection('users').doc(vendorId).collection('inventory').get();
+      final list = snapshot.docs.map((e) => ItemModel.fromSnapshot(e)).toList();
+
+      return list;
+
+    } on FirebaseException catch (e){
+      throw 'Error: $e';
+    } on FormatException catch (e){
+      throw 'Error: $e';
+    } catch (e){
+      throw 'Error: $e';
+    }
+  }
+
   Future<List<ItemModel>> fetchInventory() async {
     try {
 

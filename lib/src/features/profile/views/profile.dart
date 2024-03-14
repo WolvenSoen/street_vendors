@@ -122,6 +122,10 @@ class ProfileScreen extends StatelessWidget {
               },
               child: const Text('Cerrar sesión'),
             ),
+
+            // VERSION INFO
+            const SizedBox(height: 20),
+            const Text('Versión 1.0', style: TextStyle(color: AppColors.lightGrey),),
           ],
         ),
       ),
