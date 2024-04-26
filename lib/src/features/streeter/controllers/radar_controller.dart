@@ -1,11 +1,14 @@
 import 'dart:async';
 import 'dart:ui' as ui;
 
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:street_vendors/src/data/repositories/favorites/favorites_repository.dart';
 import 'package:street_vendors/src/utils/constants/colors.dart';
 import 'package:street_vendors/src/utils/constants/text_strings.dart';
 
@@ -121,6 +124,10 @@ class RadarController extends GetxController {
         final vendorPicture = vendor['profilePicture'];
         final vendorPhone = vendor['phoneNumber'];
 
+        // GET DATA TO SAVE TO FAVORITES
+        final vendorId = vendor['id'];
+        final fcmToken = vendor['fcmtoken'];
+
         markers.add(
           Marker(
             markerId: MarkerId(vendor['id']),
@@ -169,6 +176,14 @@ class RadarController extends GetxController {
                             ),
                           ),
                         ),
+                        // BUTTON TO ADD TO FAVORITES
+                        ElevatedButton(
+                          onPressed: () {
+                            //ADD TO FAVORITES
+                            addToFavorites(vendorId, fcmToken);
+                          },
+                          child: const Text('Añadir a favoritos'),
+                        ),
                       ],
                     ),
                     actions: [
@@ -201,6 +216,37 @@ class RadarController extends GetxController {
     }
   }
 
+  void addToFavorites(String vendorId, String fcmToken) async{
+    try {
+      // LOADER INIT
+      FullScreenLoader.openLoadingDialog('');
+
+      // INTERNET CONNECTION
+      if (!await NetworkManager.instance.isConnected()) {
+        FullScreenLoader.stopLoading();
+        Loaders.errorSnackBar(
+            title: 'Oops!', message: 'No tienes conexión a internet');
+        return;
+      }
+
+      // CODE TO ADD TO FAVORITES
+      final favoritesRepository = Get.put(FavoritesRepository());
+      await favoritesRepository.saveFavorite(vendorId, fcmToken);
+
+      // CODE TO SUBSCRIBE TO VENDOR AS A TOPIC IN FIREBASE MESSAGING SERVICE
+      await FirebaseMessaging.instance.subscribeToTopic(vendorId);
+
+      // LOADER STOP
+      FullScreenLoader.stopLoading();
+      Loaders.successSnackBar(
+          title: 'Añadido a favoritos!',
+          message: 'Puedes ver tus vendedores favoritos en tu perfil.');
+    } catch (e) {
+      FullScreenLoader.stopLoading();
+      Loaders.errorSnackBar(title: 'Oops!', message: e.toString());
+    }
+  }
+
   void toggleSelling() async {
     try {
       // LOADER INIT
@@ -223,7 +269,14 @@ class RadarController extends GetxController {
 
       getVendors();
 
+      final vendorName = userController.user.value.firstName;
+
       if (sellingStatus.value) {
+        //  CODE TO SEND NOTIFICATION TO ALL USERS THAT ARE SUBSCRIBED TO THE TOPIC
+
+        final favoritesRepository = Get.put(FavoritesRepository());
+        await favoritesRepository.sendFcmNotification(userController.user.value.id, '¡$vendorName está vendiendo ahora', '¡Ven a ver los productos que tiene para ti!');
+
         Loaders.warningSnackBar(
             title: 'Estás vendiendo!',
             message: 'Ahora aparecerás en el radar de compradores.');

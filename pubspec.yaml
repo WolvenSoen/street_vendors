@@ -41,6 +41,7 @@ dependencies:
   # Google Maps packages
   google_maps_flutter: ^2.5.3
   location: ^5.0.0
+  flutter_launcher_icons: ^0.13.1
 
 
 
@@ -64,5 +65,11 @@ flutter:
 
   ##fonts:
 
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: "AppIcon"
+  image_path: "assets/logos/logo_transparent.png"
+  min_sdk_android: 21
+  remove_alpha_ios: true
 
 

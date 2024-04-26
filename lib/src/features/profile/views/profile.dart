@@ -95,7 +95,7 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 ],
               ),
-            if (!controller.user.value.isVendor)
+            const SizedBox(height: 10),
               Column(
                 children: [
                   ListTile(
