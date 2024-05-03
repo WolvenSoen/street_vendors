@@ -45,6 +45,8 @@ class UserController extends GetxController{
             profilePicture: user.photoURL ?? '',
             fcmtoken: fcmToken ?? '',
             isSelling: false,
+            bio: '',
+            category: 'Otros',
           );
 
           // SAVE USER TO FIRESTORE

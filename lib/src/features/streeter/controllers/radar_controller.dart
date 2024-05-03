@@ -275,7 +275,7 @@ class RadarController extends GetxController {
         //  CODE TO SEND NOTIFICATION TO ALL USERS THAT ARE SUBSCRIBED TO THE TOPIC
 
         final favoritesRepository = Get.put(FavoritesRepository());
-        await favoritesRepository.sendFcmNotification(userController.user.value.id, '¡$vendorName está vendiendo ahora', '¡Ven a ver los productos que tiene para ti!');
+        await favoritesRepository.sendFcmNotification(userController.user.value.id, '¡$vendorName está vendiendo ahora!', '¡Ven a ver los productos que tiene para ti!');
 
         Loaders.warningSnackBar(
             title: 'Estás vendiendo!',

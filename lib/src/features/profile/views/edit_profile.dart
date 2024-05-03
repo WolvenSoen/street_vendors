@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:street_vendors/src/features/profile/controllers/edit_profile_controller.dart';
 import 'package:street_vendors/src/utils/constants/text_strings.dart';
 
+import '../../../utils/helpers/helpers.dart';
 import '../../../utils/validators/validators.dart';
 import '../controllers/user_controller.dart';
 
@@ -14,6 +15,9 @@ class EditProfileScreen extends StatelessWidget {
 
     final userController = UserController.instance;
     final controller = Get.put(EditProfileController());
+
+    // GET IF DARK MODE IS ENABLED
+    final dark = Helpers.isDarkMode(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -47,6 +51,31 @@ class EditProfileScreen extends StatelessWidget {
                 padding: EdgeInsets.all(20.0),
                 child: Column(
                   children: [
+                    // SELECT OPTION FOR CATEGORY OF VENDOR
+                    DropdownButtonFormField(
+                      value: controller.category,
+                      decoration: InputDecoration(
+                        labelText: 'Categoría',
+                        labelStyle: TextStyle(
+                          color: dark ? Colors.white : Colors.black,
+                        ),
+                      ),
+                      onChanged: (String? value) {
+                        controller.category = value!;
+                      },
+                      validator: (value) => Validators.validateEmptyField(value, 'Categoría'),
+                      style: TextStyle(
+                        color: dark ? Colors.white : Colors.black,
+                      ).copyWith(fontSize: 16),
+                      items: controller.categories.map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+
+                    SizedBox(height: 20),
                     Row(
                       children: <Widget>[
                         Expanded(
@@ -80,6 +109,17 @@ class EditProfileScreen extends StatelessWidget {
                       decoration: const InputDecoration(
                         labelText: 'Teléfono',
                       ),
+                    ),
+                    const SizedBox(height: 20),
+                    // TEXT AREA FOR BIO
+                    TextFormField(
+                      controller: controller.bio,
+                      validator: (value) => Validators.validateEmptyField(
+                          value, 'Biografía'),
+                      decoration: const InputDecoration(
+                        labelText: 'Biografía',
+                      ),
+                      maxLines: 5,
                     ),
                     const SizedBox(height: 20),
                     ElevatedButton(

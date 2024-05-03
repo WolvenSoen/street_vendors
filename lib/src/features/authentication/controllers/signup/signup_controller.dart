@@ -64,6 +64,8 @@ class SignupController extends GetxController{
         profilePicture: '',
         fcmtoken: fcmToken ?? '',
         isSelling: false,
+        bio: '',
+        category: 'Otros',
       );
 
       final userRepository = Get.put(UserRepository());

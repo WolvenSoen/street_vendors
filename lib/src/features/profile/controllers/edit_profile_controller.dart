@@ -15,6 +15,25 @@ class EditProfileController extends GetxController {
   final firstName = TextEditingController();
   final lastName = TextEditingController();
   final phoneNumber = TextEditingController();
+  final bio = TextEditingController();
+  // VARIABLE FOR CATEGORY INPUTS
+  var category = 'Otros';
+  // LIST OF CATEGORIES
+  final categories = [
+    "Alimentos y bebidas",
+    "Artesanías y productos locales",
+    "Ropa y accesorios",
+    "Flores y plantas",
+    "Libros y revistas",
+    "Juguetes y artículos para niños",
+    "Electrónica y aparatos",
+    "Herramientas y artículos para el hogar",
+    "Productos de belleza y cuidado personal",
+    "Servicios de reparación y mantenimiento",
+    "Otros",
+  ];
+
+
   final profilePicture = ''.obs;
   GlobalKey<FormState> editProfileFormKey = GlobalKey<FormState>();
 
@@ -27,6 +46,8 @@ class EditProfileController extends GetxController {
     firstName.text = UserController.instance.user.value.firstName;
     lastName.text = UserController.instance.user.value.lastName;
     phoneNumber.text = UserController.instance.user.value.phoneNumber;
+    bio.text = UserController.instance.user.value.bio;
+    category = UserController.instance.user.value.category;
   }
 
   void updateProfile() async{
@@ -54,6 +75,8 @@ class EditProfileController extends GetxController {
         'lastName': lastName.text.trim(),
         'fullName': '${firstName.text.trim()} ${lastName.text.trim()}',
         'phoneNumber': phoneNumber.text.trim(),
+        'bio': bio.text.trim(),
+        'category': category,
       };
       await userRepository.singleModify(updatedData);
 
@@ -63,6 +86,8 @@ class EditProfileController extends GetxController {
         val.lastName = lastName.text.trim();
         val.fullName = '${firstName.text.trim()} ${lastName.text.trim()}';
         val.phoneNumber = phoneNumber.text.trim();
+        val.bio = bio.text.trim();
+        val.category = category;
       });
 
       FullScreenLoader.stopLoading();
