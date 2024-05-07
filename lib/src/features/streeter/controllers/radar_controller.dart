@@ -8,12 +8,14 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:street_vendors/src/data/repositories/favorites/favorites_repository.dart';
+import 'package:street_vendors/src/features/streeter/controllers/favorites_controller.dart';
 import 'package:street_vendors/src/utils/constants/colors.dart';
 import 'package:street_vendors/src/utils/constants/text_strings.dart';
 
 import '../../../common/components/fullscreen_loader_screen.dart';
 import '../../../common/components/loaders/loaders.dart';
 import '../../../data/repositories/radar/radar_repository.dart';
+import '../../../data/repositories/user/user_repository.dart';
 import '../../../utils/network/network_manager.dart';
 import '../../profile/controllers/user_controller.dart';
 import '../views/inventory/vendor_inventory.dart';
@@ -24,6 +26,7 @@ class RadarController extends GetxController {
   final Completer<GoogleMapController> mapController =
       Completer<GoogleMapController>();
   UserController userController = Get.put(UserController());
+  FavoritesController favoritesController = Get.put(FavoritesController());
   final Location location = Location();
 
   RxList<Marker> markers = <Marker>[].obs;
@@ -47,6 +50,27 @@ class RadarController extends GetxController {
       refreshData.value = !refreshData.value;
       sellingStatus.value = userController.user.value.isSelling;
       getVendors();
+    });
+
+    // COMPARE PREVIOUS FCFM TOKEN WITH NEW ONE IN CASE OF APP DELETION
+    FirebaseMessaging.instance.getToken().then((token) {
+      if (userController.user.value.fcmtoken != token) {
+        final userRepository = Get.put(UserRepository());
+
+        print('°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°');
+        print('TOKEN DIFERENTE: ACTUALIZANDO...');
+        print('°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°');
+
+        userRepository.singleModify(
+          {'fcmtoken': token},
+        );
+
+        // SUBSCRIBE USER TO TOPICS AGAIN
+        for (var vendor in favoritesController.favorites) {
+          FirebaseMessaging.instance.subscribeToTopic(vendor.vendorId);
+          print('SUBSCRIBED TO: ${vendor.vendorId}');
+        }
+      }
     });
 
     super.onInit();

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:street_vendors/src/features/streeter/controllers/favorites_controller.dart';
 
 import '../../../../utils/constants/colors.dart';
+import '../../../../utils/constants/text_strings.dart';
 import '../../../../utils/helpers/helpers.dart';
 
 class FavoritesScreen extends StatelessWidget {
@@ -62,8 +63,9 @@ class FavoritesScreen extends StatelessWidget {
                       child: ListTile(
                         title: Text(favorites[index]['vendorName']),
                         leading: CircleAvatar(
-                          backgroundImage:
-                              NetworkImage(favorites[index]['vendorPic']),
+                          backgroundImage: favorites[index]['vendorPic'] != '' ?
+                          NetworkImage(favorites[index]['vendorPic']) :
+                          const AssetImage(TextStrings.AvatarDark) as ImageProvider,
                         ),
                         trailing: IconButton(
                           icon: Icon(Icons.delete),
