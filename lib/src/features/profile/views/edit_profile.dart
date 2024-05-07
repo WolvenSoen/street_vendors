@@ -51,7 +51,8 @@ class EditProfileScreen extends StatelessWidget {
                 padding: EdgeInsets.all(20.0),
                 child: Column(
                   children: [
-                    // SELECT OPTION FOR CATEGORY OF VENDOR
+                    // SELECT OPTION FOR CATEGORY OF VENDOR ONLY IF VENDOR
+                    if (userController.user.value.isVendor)
                     DropdownButtonFormField(
                       value: controller.category,
                       decoration: InputDecoration(

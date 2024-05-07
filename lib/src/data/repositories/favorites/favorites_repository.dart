@@ -13,12 +13,14 @@ class FavoritesRepository extends GetxController {
 
   UserController controller = Get.find();
 
-  Future<void> saveFavorite(String vendorId, String fcmToken) async {
+  Future<void> saveFavorite(String vendorId, String fcmToken, String vendorName, String vendorPic) async {
     try {
       // STORE ITEM IN A NEW DOCUMENT ON A LIST OF ITEMS IN THE USER'S FAVORITES
       await _db.collection('users').doc(controller.user.value.id).collection('favorites').doc(vendorId).set({
         'vendorId': vendorId,
         'fcmtoken': fcmToken,
+        'vendorName': vendorName,
+        'vendorPic': vendorPic
       });
     } on FirebaseException catch (e){
       throw 'Error: $e';
@@ -60,7 +62,23 @@ class FavoritesRepository extends GetxController {
   }
 
 
-  Future<void> deleteItem(String vendorId) async{
+  Future<List> fetchFavorites() async {
+    try {
+      // GET USER'S FAVORITES ITEMS
+      final snapshot = await _db.collection('users').doc(controller.user.value.id).collection('favorites').get();
+      final list = snapshot.docs.map((e) => e.data()).toList();
+
+      return list;
+    } on FirebaseException catch (e){
+      throw 'Error: $e';
+    } on FormatException catch (e){
+      throw 'Error: $e';
+    } catch (e){
+      throw 'Error: $e';
+    }
+  }
+
+  Future<void> deleteFavorite(String vendorId) async{
     try {
       await _db.collection('users').doc(controller.user.value.id).collection('favorites').doc(vendorId).delete();
     } on FirebaseException catch (e){

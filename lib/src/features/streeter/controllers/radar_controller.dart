@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:ui' as ui;
 
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -92,6 +91,30 @@ class RadarController extends GetxController {
         .animateCamera(CameraUpdate.newCameraPosition(newCameraPosition));
   }
 
+  // FUNCTION TO RETURN AN ICON ACCORDING TO THE CATEGORY
+  BitmapDescriptor getIcon(String category) {
+    switch (category) {
+      case 'Comida':
+        return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed);
+      case 'Ropa':
+        return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue);
+      case 'Tecnología':
+        return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen);
+      case 'Hogar':
+        return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueYellow);
+      case 'Salud':
+        return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueViolet);
+      case 'Deportes':
+        return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange);
+      case 'Juguetes':
+        return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRose);
+      case 'Otros':
+        return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure);
+      default:
+        return BitmapDescriptor.defaultMarker;
+    }
+  }
+
   void getVendors() async {
     try {
       // LOADER INIT
@@ -127,6 +150,7 @@ class RadarController extends GetxController {
         // GET DATA TO SAVE TO FAVORITES
         final vendorId = vendor['id'];
         final fcmToken = vendor['fcmtoken'];
+        final category = vendor['category'];
 
         markers.add(
           Marker(
@@ -135,7 +159,7 @@ class RadarController extends GetxController {
             icon: testIcon,
             infoWindow: InfoWindow(
               title: vendorName,
-              snippet: 'CATEGORY',
+              snippet: category,
             ),
             onTap: () {
               //TRIGER DIALOG WITH VENDOR INFO
@@ -152,14 +176,13 @@ class RadarController extends GetxController {
                               : AssetImage(TextStrings.AvatarDark) as ImageProvider,
                         ),
                         const SizedBox(height: 10,),
-                        Text(vendorName, textAlign: TextAlign.center, style: const TextStyle(fontSize: 20),),
+                        Text(vendorName, textAlign: TextAlign.center, style: const TextStyle(fontSize: 25),),
+                        Text(category, style: const TextStyle(fontSize: 15),),
                       ],
                     ),
                     content: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Text('Categoría: [POR DEFINIR]'),
-                        const SizedBox(height: 10,),
                         // TAPABLE TEXT TO COPY TO CLIPBOARD VENDOR PHONE
                         InkWell(
                           onTap: () {
@@ -180,7 +203,7 @@ class RadarController extends GetxController {
                         ElevatedButton(
                           onPressed: () {
                             //ADD TO FAVORITES
-                            addToFavorites(vendorId, fcmToken);
+                            addToFavorites(vendorId, fcmToken, vendorName, vendorPicture);
                           },
                           child: const Text('Añadir a favoritos'),
                         ),
@@ -216,7 +239,7 @@ class RadarController extends GetxController {
     }
   }
 
-  void addToFavorites(String vendorId, String fcmToken) async{
+  void addToFavorites(String vendorId, String fcmToken, String vendorName, String vendorPic) async{
     try {
       // LOADER INIT
       FullScreenLoader.openLoadingDialog('');
@@ -231,7 +254,7 @@ class RadarController extends GetxController {
 
       // CODE TO ADD TO FAVORITES
       final favoritesRepository = Get.put(FavoritesRepository());
-      await favoritesRepository.saveFavorite(vendorId, fcmToken);
+      await favoritesRepository.saveFavorite(vendorId, fcmToken, vendorName, vendorPic);
 
       // CODE TO SUBSCRIBE TO VENDOR AS A TOPIC IN FIREBASE MESSAGING SERVICE
       await FirebaseMessaging.instance.subscribeToTopic(vendorId);
@@ -273,7 +296,6 @@ class RadarController extends GetxController {
 
       if (sellingStatus.value) {
         //  CODE TO SEND NOTIFICATION TO ALL USERS THAT ARE SUBSCRIBED TO THE TOPIC
-
         final favoritesRepository = Get.put(FavoritesRepository());
         await favoritesRepository.sendFcmNotification(userController.user.value.id, '¡$vendorName está vendiendo ahora!', '¡Ven a ver los productos que tiene para ti!');
 
