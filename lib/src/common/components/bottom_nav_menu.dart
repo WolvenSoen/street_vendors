@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../features/profile/views/profile.dart';
-import '../../features/streeter/views/favorites/favorites.dart';
 import '../../features/streeter/views/radar/radar.dart';
 import '../../utils/helpers/helpers.dart';
 

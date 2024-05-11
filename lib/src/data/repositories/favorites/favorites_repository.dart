@@ -34,7 +34,7 @@ class FavoritesRepository extends GetxController {
   Future<http.Response> sendFcmNotification(
       String topic, String title, String body) async {
     final url = Uri.parse('https://fcm.googleapis.com/fcm/send');
-    final token = "AAAAnMYMmfc:APA91bGtSaCV9RMN-INGmfGoAsVchiu7HkrPpj_HLAVJMfIRUtMhsypOE5C3UiBAnVpZ00A37Ka81n9cSfY7nDN5LVjieWYW469wAeWh9WVCGfIv0LHb-Qi_Gmo9sh56g3pUF3CrjMYM";
+    const token = "AAAAnMYMmfc:APA91bGtSaCV9RMN-INGmfGoAsVchiu7HkrPpj_HLAVJMfIRUtMhsypOE5C3UiBAnVpZ00A37Ka81n9cSfY7nDN5LVjieWYW469wAeWh9WVCGfIv0LHb-Qi_Gmo9sh56g3pUF3CrjMYM";
 
     // Ensure token is retrieved before proceeding
     if (token == null || token.isEmpty) {

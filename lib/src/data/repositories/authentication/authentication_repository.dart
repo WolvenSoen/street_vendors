@@ -37,6 +37,23 @@ class AuthenticationRepository extends GetxController{
     }
   }
 
+  /// FORGOT PASSWORD
+  Future<void> forgotPassword(String email) async{
+    try {
+
+      return await _auth.sendPasswordResetEmail(email: email);
+
+    } on FirebaseAuthException catch (e){
+      return Loaders.errorSnackBar(title: 'Oops!', message: e.message ?? 'Error');
+    } on FirebaseException catch (e){
+      return Loaders.errorSnackBar(title: 'Oops!', message: e.message ?? 'Error');
+    } on FormatException catch (e){
+      return Loaders.errorSnackBar(title: 'Oops!', message: e.message ?? 'Error');
+    } catch (e) {
+      throw 'Error: $e';
+    }
+  }
+
 
   /// EMAIL & PASSWORD SIGN-IN
 

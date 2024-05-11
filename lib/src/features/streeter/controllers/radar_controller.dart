@@ -223,13 +223,32 @@ class RadarController extends GetxController {
                             ),
                           ),
                         ),
-                        // BUTTON TO ADD TO FAVORITES
+                        // BUTTON TO ADD TO FAVORITES (CHANGE TO REMOVE IF ALREADY IN FAVORITES)
+                        //ElevatedButton(
+                       //   onPressed: () {
+                            //ADD TO FAVORITES
+                         //   addToFavorites(vendorId, fcmToken, vendorName, vendorPicture);
+                        //  },
+                        //  child: const Text('Añadir a favoritos'),
+                        //),
                         ElevatedButton(
                           onPressed: () {
-                            //ADD TO FAVORITES
-                            addToFavorites(vendorId, fcmToken, vendorName, vendorPicture);
+                            //CHECK IF VENDOR IS ALREADY IN FAVORITES
+                            if (favoritesController.favorites
+                                .any((element) => element.vendorId == vendorId)) {
+                              //REMOVE FROM FAVORITES
+                              favoritesController.deleteFavorite(vendorId);
+                            } else {
+                              //ADD TO FAVORITES
+                              addToFavorites(vendorId, fcmToken, vendorName, vendorPicture);
+                            }
                           },
-                          child: const Text('Añadir a favoritos'),
+                          child: Text(
+                            favoritesController.favorites
+                                    .any((element) => element.vendorId == vendorId)
+                                ? 'Eliminar de favoritos'
+                                : 'Añadir a favoritos',
+                          ),
                         ),
                       ],
                     ),

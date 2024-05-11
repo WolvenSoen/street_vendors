@@ -4,7 +4,6 @@ import 'package:street_vendors/src/utils/constants/text_strings.dart';
 import 'package:street_vendors/src/utils/helpers/helpers.dart';
 import 'package:street_vendors/src/utils/validators/validators.dart';
 
-import '../../../../utils/constants/colors.dart';
 import '../../controllers/login/login_controller.dart';
 
 class LoginScreen extends StatelessWidget {
