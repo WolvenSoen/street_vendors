@@ -18,7 +18,6 @@ class FavoritesScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Favoritos', style: TextStyle(fontSize: 20)),
       ),
-      // GENERATE FAVORITES SCREEN
       body: Obx(
         () => FutureBuilder(
           key: Key(favoritesController.refreshData.value.toString()),

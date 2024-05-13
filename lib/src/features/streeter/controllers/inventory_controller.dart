@@ -49,10 +49,10 @@ class InventoryController extends GetxController {
       }
 
       // VALIDATE FORM
-      if (!manageItemFormKey.currentState!.validate()) {
+      if (!manageItemFormKey.currentState!.validate() || itemPictures.isEmpty) {
         FullScreenLoader.stopLoading();
         Loaders.errorSnackBar(
-            title: 'Oops!', message: 'Por favor, llena todos los campos');
+            title: 'Oops!', message: 'Por favor, llena todos los campos y agrega imágenes');
         return;
       }
 
@@ -106,10 +106,10 @@ class InventoryController extends GetxController {
       }
 
       // VALIDATE FORM
-      if (!manageItemFormKey.currentState!.validate()) {
+      if (!manageItemFormKey.currentState!.validate() || itemPictures.isEmpty) {
         FullScreenLoader.stopLoading();
         Loaders.errorSnackBar(
-            title: 'Oops!', message: 'Por favor, llena todos los campos');
+            title: 'Oops!', message: 'Por favor, llena todos los campos y agrega imágenes');
         return;
       }
 
@@ -190,7 +190,7 @@ class InventoryController extends GetxController {
 
       Loaders.successSnackBar(
           title: '¡Listo!',
-          message: 'El item se eliminó correctamente'
+          message: 'El objeto | servicio se eliminó correctamente'
       );
 
       Navigator.of(Get.context!).pop();

@@ -4,6 +4,7 @@ import 'package:street_vendors/src/features/streeter/controllers/vendor_inventor
 
 import '../../../../utils/constants/colors.dart';
 import '../../../../utils/helpers/helpers.dart';
+import 'item_details.dart';
 
 class VendorInventoryScreen extends StatelessWidget {
   VendorInventoryScreen(
@@ -48,7 +49,7 @@ class VendorInventoryScreen extends StatelessWidget {
                 children: [
                   SizedBox(height: 30),
                   Center(
-                    child: Text('No tienes items en tu inventario aún'),
+                    child: Text('No hay inventario disponible.'),
                   ),
                 ],
               );
@@ -67,14 +68,17 @@ class VendorInventoryScreen extends StatelessWidget {
               itemCount: items.length,
               itemBuilder: (context, index) {
                 // RETURN SCROLLEABLE LIST
-                return Padding(
+                  return Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: SingleChildScrollView(
                     child: ListTile(
-                      title: Text(items[index].itemName),
+                      title: Text(items[index].itemName,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                          )),
                       subtitle: Text(items[index].itemDescription),
                       trailing: Text(
-                        '\$${items[index].itemPrice}',
+                        '\$${items[index].itemPrice}0',
                         style: const TextStyle(
                           fontSize: 17,
                         ),
@@ -89,7 +93,19 @@ class VendorInventoryScreen extends StatelessWidget {
                               color: dark ? Colors.white : Colors.black,
                             ),
                       onTap: () {
-                        showDialog(
+
+                        //  OPEN ITEM DETAILS VIEW
+                        Get.to(() => ItemDetailsScreen(
+                          id: items[index].id,
+                          vendorName: vendorName,
+                          itemName: items[index].itemName,
+                          itemDescription: items[index].itemDescription,
+                          itemStock: items[index].itemStock,
+                          itemPrice: items[index].itemPrice,
+                          itemPictures: items[index].itemPictures,
+                        ));
+
+                        /*showDialog(
                           context: context,
                           builder: (context) {
                             return AlertDialog(
@@ -99,8 +115,7 @@ class VendorInventoryScreen extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
 
-                                  // TODO: IMAGE CAROUSEL
-
+                                  // TODO: IMAGE CAROUSEL & REFACTOR DIALOG
 
                                   Text(items[index].itemDescription),
                                   Text(
@@ -127,13 +142,14 @@ class VendorInventoryScreen extends StatelessWidget {
                               ],
                             );
                           },
-                        );
+                        );*/
                       },
                     ),
                   ),
                 );
               },
             );
+
           },
         ),
       ),

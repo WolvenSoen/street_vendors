@@ -26,6 +26,8 @@ class EditProfileScreen extends StatelessWidget {
         child: Column(
           children: [
             /// Profile Picture
+            const SizedBox(height: 20),
+            Text('Puedes cambiar tu foto de perfil tocando la imagen'),
             Padding(
               padding: EdgeInsets.all(20.0),
               child: Center(
@@ -113,6 +115,7 @@ class EditProfileScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 20),
                     // TEXT AREA FOR BIO
+                    if(userController.user.value.isVendor)
                     TextFormField(
                       controller: controller.bio,
                       validator: (value) => Validators.validateEmptyField(

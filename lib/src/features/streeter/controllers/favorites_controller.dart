@@ -1,10 +1,12 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
+import 'package:street_vendors/src/common/components/fullscreen_loader_screen.dart';
+import 'package:street_vendors/src/data/repositories/user/user_repository.dart';
 
-import '../../../common/components/fullscreen_loader_screen.dart';
 import '../../../common/components/loaders/loaders.dart';
 import '../../../data/repositories/favorites/favorites_repository.dart';
 import '../../../utils/network/network_manager.dart';
+import '../../authentication/models/user_model.dart';
 
 class FavoritesController extends GetxController{
   static FavoritesController get instance => Get.find();
@@ -16,6 +18,9 @@ class FavoritesController extends GetxController{
 
   final favoritesRepository = Get.put(FavoritesRepository());
 
+  final userRepository = Get.put(UserRepository());
+
+  var userData = UserModel.empty();
 
   @override
   void onInit() {

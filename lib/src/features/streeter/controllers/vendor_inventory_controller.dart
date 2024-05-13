@@ -11,6 +11,7 @@ class VendorInventoryController extends GetxController {
 
   RxList<ItemModel> items = <ItemModel>[].obs;
   RxBool refreshData = true.obs;
+  RxBool availableInventory = true.obs;
 
   @override
   void onInit() {
@@ -20,6 +21,9 @@ class VendorInventoryController extends GetxController {
   Future<List<ItemModel>> getVendorInventory(String vendorId) async {
     try {
       final items = await inventoryRepository.fetchVendorInventory(vendorId);
+
+      // ONLY ADD ACTIVE OR IN STOCK ITEMS (FILEDS: isActive and itemStock)
+      items.removeWhere((item) => !item.isActive || item.itemStock == 0);
 
       this.items.assignAll(items);
 

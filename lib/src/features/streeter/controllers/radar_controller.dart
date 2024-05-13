@@ -35,8 +35,13 @@ class RadarController extends GetxController {
   RxBool refreshData = true.obs;
   RxBool sellingStatus = false.obs;
 
+  var moveCameraControl = false;
+
   // CUSTOM MARKER ICON
   BitmapDescriptor testIcon = BitmapDescriptor.defaultMarker;
+
+  // OBX LIST OF FAVORITES
+  RxList<dynamic> favorites = <dynamic>[].obs;
 
   @override
   void onInit() {
@@ -73,7 +78,39 @@ class RadarController extends GetxController {
       }
     });
 
+    // GET FAVORITES LIST
+
+    Future.delayed(
+      const Duration(milliseconds: 500),
+      () => getFavoritesList(),
+    );
+
     super.onInit();
+  }
+
+  Future<void> getFavoritesList() async {
+    try {
+      // LOADER INIT
+      FullScreenLoader.openLoadingDialog('');
+
+      // INTERNET CONNECTION
+      if (!await NetworkManager.instance.isConnected()) {
+        FullScreenLoader.stopLoading();
+        Loaders.errorSnackBar(
+            title: 'Oops!', message: 'No tienes conexión a internet');
+        return;
+      }
+
+      // GET FAVORITES LIST
+      final favoritesRepository = Get.put(FavoritesRepository());
+      favorites.assignAll(await favoritesRepository.fetchFavorites());
+
+      // LOADER STOP
+      FullScreenLoader.stopLoading();
+    } catch (e) {
+      FullScreenLoader.stopLoading();
+      Loaders.errorSnackBar(title: 'Oops!', message: e.toString());
+    }
   }
 
   Future<void> getLocationUpdates() async {
@@ -103,39 +140,19 @@ class RadarController extends GetxController {
           currentLocation.longitude != null) {
         currentPosition.value =
             LatLng(currentLocation.latitude!, currentLocation.longitude!);
-        /*cameraToPosition(currentPosition.value);*/
+        cameraToPosition(currentPosition.value);
       }
     });
   }
 
   Future<void> cameraToPosition(LatLng pos) async {
     final GoogleMapController controller = await mapController.future;
-    CameraPosition newCameraPosition = CameraPosition(target: pos, zoom: 6);
-    await controller
-        .animateCamera(CameraUpdate.newCameraPosition(newCameraPosition));
-  }
+    CameraPosition newCameraPosition = CameraPosition(target: pos, zoom: 15);
 
-  // FUNCTION TO RETURN AN ICON ACCORDING TO THE CATEGORY
-  BitmapDescriptor getIcon(String category) {
-    switch (category) {
-      case 'Comida':
-        return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed);
-      case 'Ropa':
-        return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue);
-      case 'Tecnología':
-        return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen);
-      case 'Hogar':
-        return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueYellow);
-      case 'Salud':
-        return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueViolet);
-      case 'Deportes':
-        return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange);
-      case 'Juguetes':
-        return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRose);
-      case 'Otros':
-        return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure);
-      default:
-        return BitmapDescriptor.defaultMarker;
+    // DO THIS JUST ONCE
+    if (moveCameraControl == false) {
+      controller.animateCamera(CameraUpdate.newCameraPosition(newCameraPosition));
+      moveCameraControl = true;
     }
   }
 
@@ -223,33 +240,29 @@ class RadarController extends GetxController {
                             ),
                           ),
                         ),
-                        // BUTTON TO ADD TO FAVORITES (CHANGE TO REMOVE IF ALREADY IN FAVORITES)
-                        //ElevatedButton(
-                       //   onPressed: () {
-                            //ADD TO FAVORITES
-                         //   addToFavorites(vendorId, fcmToken, vendorName, vendorPicture);
-                        //  },
-                        //  child: const Text('Añadir a favoritos'),
-                        //),
-                        ElevatedButton(
-                          onPressed: () {
-                            //CHECK IF VENDOR IS ALREADY IN FAVORITES
-                            if (favoritesController.favorites
-                                .any((element) => element.vendorId == vendorId)) {
-                              //REMOVE FROM FAVORITES
-                              favoritesController.deleteFavorite(vendorId);
-                            } else {
-                              //ADD TO FAVORITES
-                              addToFavorites(vendorId, fcmToken, vendorName, vendorPicture);
-                            }
-                          },
-                          child: Text(
-                            favoritesController.favorites
-                                    .any((element) => element.vendorId == vendorId)
-                                ? 'Eliminar de favoritos'
-                                : 'Añadir a favoritos',
+
+                        // BUTTON TO ADD TO FAVORITES (CHANGE TO REMOVE IF ALREADY IN FAVORITES) (DISABLE IF USER IS THE SAME AS VENDOR)
+                        Obx(
+                              () => ElevatedButton(
+                            onPressed: () {
+                              if(favorites.any((favorite) => favorite['vendorId'] == vendorId)) {
+                                //REMOVE FROM FAVORITES
+                                favorites.removeWhere((favorite) => favorite['vendorId'] == vendorId);
+                                favoritesController.deleteFavorite(vendorId);
+                              } else {
+                                //ADD TO FAVORITES
+                                favorites.add({
+                                  'vendorId': vendorId,
+                                  'fcmToken': fcmToken,
+                                  'vendorName': vendorName,
+                                  'vendorPicture': vendorPicture
+                                });
+                                addToFavorites(vendorId, fcmToken, vendorName, vendorPicture);
+                              }
+                            },
+                            child: favorites.any((favorite) => favorite['vendorId'] == vendorId) ? const Text('Eliminar de favoritos') : const Text('Añadir a favoritos'),
                           ),
-                        ),
+                        )
                       ],
                     ),
                     actions: [

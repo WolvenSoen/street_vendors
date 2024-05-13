@@ -26,6 +26,26 @@ class UserRepository extends GetxController{
     }
   }
 
+  // FUNCTION TO GET USER DETAILS
+  Future<UserModel> getUserDetails(String userId) async {
+    try {
+      final documentSnapshot = await _db.collection('users').doc(userId).get();
+
+      if(documentSnapshot.exists){
+        return UserModel.fromSnapshot(documentSnapshot);
+      } else {
+        return UserModel.empty();
+      }
+
+    } on FirebaseException catch (e){
+      throw 'Error: $e';
+    } on FormatException catch (e){
+      throw 'Error: $e';
+    } catch (e){
+      throw 'Error: $e';
+    }
+  }
+
   Future<UserModel> fetch() async {
     try {
       final documentSnapshot = await _db.collection('users').doc(AuthenticationRepository.instance.authUser?.uid).get();

@@ -37,6 +37,9 @@ class ForgotPasswordController extends GetxController{
       FullScreenLoader.stopLoading();
       Loaders.successSnackBar(title: 'Listo!', message: 'Correo de recuperación enviado');
 
+      // CLEAR FORM
+      verifEmail.clear();
+
       // REDIRECTO TO LOGIN
       Get.offAll(() => const LoginScreen());
 

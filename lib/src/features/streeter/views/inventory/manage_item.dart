@@ -40,19 +40,13 @@ class ManageItemScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "$title un item",
-          style: const TextStyle(fontSize: 20),
+          "$title producto | servicio",
+          style: const TextStyle(fontSize: 15),
         ),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const SizedBox(height: 20),
-            if (id != "")
-              Center(
-                  child: Text('ID: $id', style: const TextStyle(fontSize: 20))),
-            const SizedBox(height: 30),
-
             // IMAGES SECTION
             const SizedBox(height: 20),
             Obx(
@@ -121,6 +115,7 @@ class ManageItemScreen extends StatelessWidget {
                         validator: (value) => Validators.validateEmptyField(
                             value, 'Descripción del artículo | servicio'),
                         controller: controller.itemDescription,
+                        maxLines: 8,
                         decoration: const InputDecoration(
                           labelText: 'Descripción del artículo | servicio',
                         ),

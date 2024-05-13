@@ -16,7 +16,7 @@ class InventoryScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Inventario', style: TextStyle(fontSize: 20)),
+        title: const Text('Mi Inventario', style: TextStyle(fontSize: 20)),
       ),
       body: Obx(
         () => FutureBuilder(
@@ -54,10 +54,14 @@ class InventoryScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(20.0),
                   child: SingleChildScrollView(
                     child: ListTile(
-                      title: Text(items[index].itemName+' - Stock: ' + items[index].itemStock.toString()),
-                      subtitle: Text(items[index].itemDescription),
-                      trailing: Text('\$${items[index].itemPrice}', style: const TextStyle(
-                        fontSize: 17,
+                      title: Text(items[index].itemName, style: TextStyle(
+                        color: items[index].isActive ? dark? Colors.white : Colors.black : Colors.blueGrey,
+                      ),),
+                      subtitle: Text('Stock: ${items[index].itemStock}', style: TextStyle(
+                        color: items[index].itemStock < 1 ? Colors.red : dark? Colors.white : Colors.black,
+                      ),),
+                      trailing: Text('\$${items[index].itemPrice}0', style: TextStyle(
+                        color: items[index].isActive ? dark? Colors.white : Colors.black : Colors.blueGrey, fontSize: 17
                       ),),
                       leading: inventoryController.items[index].itemPictures.isNotEmpty
                           ? Image.network(inventoryController.items[index].itemPictures[0])

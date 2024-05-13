@@ -82,7 +82,10 @@ class UserController extends GetxController{
   Future<void> uploadUserProfilePicture() async{
 
     try{
+      // CONTROL TO NOT OPEN IMAGE PICKER IF TAPED TOO MANY TIMES
+
       final image = await ImagePicker().pickImage(source: ImageSource.gallery, imageQuality: 70, maxWidth: 512, maxHeight: 512);
+
       if(image != null){
 
         final imageUrl = await userRepository.uploadImage('users/images/profile', image);

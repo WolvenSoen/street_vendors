@@ -64,7 +64,7 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   trailing: IconButton(
                     onPressed: () {
-                      Get.to(EditProfileScreen());
+                      Get.to(() => EditProfileScreen());
                     },
                     icon: Icon(
                       Icons.edit,
@@ -90,7 +90,7 @@ class ProfileScreen extends StatelessWidget {
                     leading: const Icon(Icons.store),
                     trailing: const Icon(Icons.arrow_forward_ios),
                     onTap: () {
-                      Get.to(InventoryScreen());
+                      Get.to(() => InventoryScreen());
                     },
                   ),
                 ],
@@ -100,11 +100,11 @@ class ProfileScreen extends StatelessWidget {
                 children: [
                   ListTile(
                     title: const Text('Favoritos'),
-                    subtitle: const Text('Revisa el estado de tus vendedores favoritos'),
+                    subtitle: const Text('Administra tus favoritos'),
                     leading: const Icon(Icons.favorite),
                     trailing: const Icon(Icons.arrow_forward_ios),
                     onTap: () {
-                      Get.to(FavoritesScreen());
+                      Get.to(() => FavoritesScreen());
                     },
                   ),
                 ],

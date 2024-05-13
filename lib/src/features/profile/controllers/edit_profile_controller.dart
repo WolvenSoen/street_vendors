@@ -96,7 +96,9 @@ class EditProfileController extends GetxController {
       Loaders.successSnackBar(title: 'Listo!', message: 'Datos actualizados correctamente');
 
       // GO BACK
-      Get.off(const ProfileScreen());
+      Get.back(
+        result: const ProfileScreen(),
+      );
     } catch (e){
       FullScreenLoader.stopLoading();
       Loaders.errorSnackBar(title: 'Oops!', message: e.toString());
