@@ -2,6 +2,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 import 'package:street_vendors/src/common/components/fullscreen_loader_screen.dart';
 import 'package:street_vendors/src/data/repositories/user/user_repository.dart';
+import 'package:street_vendors/src/features/streeter/controllers/radar_controller.dart';
 
 import '../../../common/components/loaders/loaders.dart';
 import '../../../data/repositories/favorites/favorites_repository.dart';
@@ -61,6 +62,7 @@ class FavoritesController extends GetxController{
       await FirebaseMessaging.instance.unsubscribeFromTopic(vendorId);
 
       favoritesRepository.deleteFavorite(vendorId);
+
       refreshData.toggle();
 
       // LOADER STOP

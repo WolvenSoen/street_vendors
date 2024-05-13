@@ -243,25 +243,33 @@ class RadarController extends GetxController {
 
                         // BUTTON TO ADD TO FAVORITES (CHANGE TO REMOVE IF ALREADY IN FAVORITES) (DISABLE IF USER IS THE SAME AS VENDOR)
                         Obx(
-                              () => ElevatedButton(
-                            onPressed: () {
-                              if(favorites.any((favorite) => favorite['vendorId'] == vendorId)) {
-                                //REMOVE FROM FAVORITES
-                                favorites.removeWhere((favorite) => favorite['vendorId'] == vendorId);
-                                favoritesController.deleteFavorite(vendorId);
-                              } else {
-                                //ADD TO FAVORITES
-                                favorites.add({
-                                  'vendorId': vendorId,
-                                  'fcmToken': fcmToken,
-                                  'vendorName': vendorName,
-                                  'vendorPicture': vendorPicture
-                                });
-                                addToFavorites(vendorId, fcmToken, vendorName, vendorPicture);
-                              }
-                            },
-                            child: favorites.any((favorite) => favorite['vendorId'] == vendorId) ? const Text('Eliminar de favoritos') : const Text('Añadir a favoritos'),
-                          ),
+                              () {
+                            if (favorites.isEmpty) {
+                              return CircularProgressIndicator();
+                            } else {
+                              return userController.user.value.id == vendorId
+                                  ? Container()
+                                  : ElevatedButton(
+                                onPressed: () {
+                                  if(favorites.any((favorite) => favorite['vendorId'] == vendorId)) {
+                                    //REMOVE FROM FAVORITES
+                                    favorites.removeWhere((favorite) => favorite['vendorId'] == vendorId);
+                                    favoritesController.deleteFavorite(vendorId);
+                                  } else {
+                                    //ADD TO FAVORITES
+                                    favorites.add({
+                                      'vendorId': vendorId,
+                                      'fcmToken': fcmToken,
+                                      'vendorName': vendorName,
+                                      'vendorPicture': vendorPicture
+                                    });
+                                    addToFavorites(vendorId, fcmToken, vendorName, vendorPicture);
+                                  }
+                                },
+                                child: favorites.any((favorite) => favorite['vendorId'] == vendorId) ? const Text('Eliminar de favoritos') : const Text('Añadir a favoritos'),
+                              );
+                            }
+                          },
                         )
                       ],
                     ),
