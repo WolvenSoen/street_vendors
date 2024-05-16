@@ -26,7 +26,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                 children: [
                   const SizedBox(height: 20),
                   const Text(
-                    'Forgot Password',
+                    'Recuperando contraseña',
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -34,7 +34,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
                   const Text(
-                    'Enter your email address and we will send you a link to your E-mail to reset your password',
+                    'Ingresa tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña.',
                     style: TextStyle(
                       fontSize: 16,
                     ),
@@ -47,8 +47,8 @@ class ForgotPasswordScreen extends StatelessWidget {
                       validator: (value) =>
                           Validators.emailValidator(value),
                       decoration: const InputDecoration(
-                        labelText: 'Email',
-                        hintText: 'Enter your email',
+                        labelText: 'Correo Electrónico',
+                        hintText: 'Ingresa tu correo electrónico',
                       ),
                     ),
                   ),
@@ -57,7 +57,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                     onPressed: () {
                       controller.forgotPassword();
                     },
-                    child: const Text('Send Email'),
+                    child: const Text('Enviar'),
                   ),
                 ],
               ),
