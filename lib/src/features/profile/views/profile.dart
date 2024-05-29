@@ -126,7 +126,7 @@ class ProfileScreen extends StatelessWidget {
             // VERSION INFO
             const SizedBox(height: 20),
             const Text(
-              'Versión 1.4',
+              'Versión 1.5',
               style: TextStyle(color: AppColors.lightGrey),
             ),
           ],

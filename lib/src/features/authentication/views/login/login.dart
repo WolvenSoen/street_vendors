@@ -117,7 +117,7 @@ class LoginScreen extends StatelessWidget {
             ),
 
             /// Divider
-            const Row(
+            /*const Row(
               children: [
                 Expanded(child: Divider()),
                 Padding(
@@ -138,7 +138,7 @@ class LoginScreen extends StatelessWidget {
                     icon: Icon(Icons.g_mobiledata_rounded),
                     iconSize: 70),
               ],
-            ),
+            ),*/
           ],
         ),
       ),

@@ -11,7 +11,7 @@ class SkipOnBoarding extends StatelessWidget {
     return Positioned(
         child: TextButton(onPressed: () {
           OnBoardingController.instance.skipPage();
-        }, child: const Text('Skip')),
+        }, child: const Text('Omitir')),
         top: 50,
         right: 20);
   }

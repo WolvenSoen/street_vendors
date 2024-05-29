@@ -25,16 +25,16 @@ class OnBoardingScreen extends StatelessWidget {
           children: [
             OnBoardingPage(
                 image: dark? TextStrings.OnboardingImageDark : TextStrings.OnboardingImageLight,
-                title: 'Welcome to Streeter',
-                subtitle: 'Find the best street vendors in your city'),
+                title: 'Bienvenido a Streeter!',
+                subtitle: 'Encuentra a tus vendedores locales'),
             OnBoardingPage(
                 image: dark? TextStrings.OnboardingImageDark2: TextStrings.OnboardingImageLight2,
-                title: 'Discover',
-                subtitle: 'Look through their products and services'),
+                title: 'Descubre',
+                subtitle: 'Mira los productos que ofrecen'),
             OnBoardingPage(
                 image: dark? TextStrings.OnboardingImageDark3 : TextStrings.OnboardingImageLight3,
-                title: 'Support',
-                subtitle: 'Support your local street vendors'),
+                title: 'Apoya',
+                subtitle: 'Compra y apoya a los vendedores locales'),
           ]),
       const SkipOnBoarding(),
       const OnBoardingIndicator(),
