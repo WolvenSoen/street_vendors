@@ -64,6 +64,14 @@ class FavoritesRepository extends GetxController {
 
   Future<List> fetchFavorites() async {
     try {
+
+      // Check if user id is null
+      if (controller.user.value.id == null) {
+        // Return an empty list or handle it accordingly
+        print('===================================== User id is null at this point =====================================');
+        return [];
+      }
+
       // GET USER'S FAVORITES ITEMS
       final snapshot = await _db.collection('users').doc(controller.user.value.id).collection('favorites').get();
       final list = snapshot.docs.map((e) => e.data()).toList();

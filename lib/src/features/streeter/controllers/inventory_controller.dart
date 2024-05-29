@@ -215,20 +215,49 @@ class InventoryController extends GetxController {
   }
 
   void addPicture() async {
-    try{
-      final image = await ImagePicker().pickImage(source: ImageSource.camera, imageQuality: 70, maxWidth: 512, maxHeight: 512);
-      if(image != null){
+    try {
+      final ImageSource? source = await showDialog<ImageSource>(
+        context: Get.context!,
+        builder: (BuildContext context) {
+          return SimpleDialog(
+            title: const Text('Elige la fuente de la imagen'),
+            children: <Widget>[
+              const SizedBox(height: 30),
+              SimpleDialogOption(
+                onPressed: () {
+                  Navigator.pop(context, ImageSource.camera);
+                },
+                child: const Text('Cámara'),
+              ),
+              SimpleDialogOption(
+                onPressed: () {
+                  Navigator.pop(context, ImageSource.gallery);
+                },
+                child: const Text('Galería'),
+              ),
+            ],
+          );
+        },
+      );
 
-        final inventoryRepository = Get.put(InventoryRepository());
+      if (source != null) {
+        final image = await ImagePicker().pickImage(
+          source: source,
+          imageQuality: 70,
+          maxWidth: 512,
+          maxHeight: 512,
+        );
 
-        final imageUrl = await inventoryRepository.uploadImage('users/images/items', image);
-
-        itemPictures.add(imageUrl);
+        if (image != null) {
+          final inventoryRepository = Get.put(InventoryRepository());
+          final imageUrl = await inventoryRepository.uploadImage('users/images/items', image);
+          itemPictures.add(imageUrl);
+        }
       }
-    } catch (e){
+    } catch (e) {
       Loaders.errorSnackBar(
-          title: 'Oops!',
-          message: e.toString()
+        title: 'Oops!',
+        message: e.toString(),
       );
     }
   }

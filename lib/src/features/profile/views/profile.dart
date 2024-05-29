@@ -8,7 +8,6 @@ import 'package:street_vendors/src/utils/constants/text_strings.dart';
 import 'package:street_vendors/src/utils/helpers/helpers.dart';
 
 import '../../../utils/constants/colors.dart';
-import '../../streeter/controllers/inventory_controller.dart';
 import '../controllers/user_controller.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -17,9 +16,7 @@ class ProfileScreen extends StatelessWidget {
   // USER PROFILE SETTINGS
   @override
   Widget build(BuildContext context) {
-
     final controller = UserController.instance;
-    final inventoryController = Get.put(InventoryController());
     final authController = AuthenticationRepository.instance;
 
     final dark = Helpers.isDarkMode(context);
@@ -39,11 +36,11 @@ class ProfileScreen extends StatelessWidget {
                         text: TextSpan(
                           text: controller.user.value.fullName,
                           style: TextStyle(
-                            color: dark? AppColors.light: Colors.black,
+                            color: dark ? AppColors.light : Colors.black,
                             fontSize: 22,
                           ),
                         ),
-                  )),
+                      )),
                   subtitle: Obx(() => RichText(
                         text: TextSpan(
                           text: controller.user.value.email,
@@ -54,12 +51,13 @@ class ProfileScreen extends StatelessWidget {
                         ),
                       )),
                   leading: Obx(
-                    ()=> CircleAvatar(
+                    () => CircleAvatar(
                       radius: 30,
-                      backgroundImage:
-                          controller.user.value.profilePicture.isNotEmpty
-                              ? NetworkImage(controller.user.value.profilePicture)
-                              : const AssetImage(TextStrings.AvatarDark) as ImageProvider,
+                      backgroundImage: controller
+                              .user.value.profilePicture.isNotEmpty
+                          ? NetworkImage(controller.user.value.profilePicture)
+                          : const AssetImage(TextStrings.AvatarDark)
+                              as ImageProvider,
                     ),
                   ),
                   trailing: IconButton(
@@ -68,7 +66,7 @@ class ProfileScreen extends StatelessWidget {
                     },
                     icon: Icon(
                       Icons.edit,
-                      color: dark? AppColors.light: Colors.black,
+                      color: dark ? AppColors.light : Colors.black,
                     ),
                   ),
                 ),
@@ -79,6 +77,7 @@ class ProfileScreen extends StatelessWidget {
               thickness: 0.5,
             ),
             const SizedBox(height: 20),
+
             /// BODY
             // VENDOR INVENTORY IF VENDOR
             if (controller.user.value.isVendor)
@@ -86,7 +85,8 @@ class ProfileScreen extends StatelessWidget {
                 children: [
                   ListTile(
                     title: const Text('Inventario'),
-                    subtitle: const Text('Administra tus productos y/o servicios'),
+                    subtitle:
+                        const Text('Administra tus productos y/o servicios'),
                     leading: const Icon(Icons.store),
                     trailing: const Icon(Icons.arrow_forward_ios),
                     onTap: () {
@@ -96,19 +96,19 @@ class ProfileScreen extends StatelessWidget {
                 ],
               ),
             const SizedBox(height: 10),
-              Column(
-                children: [
-                  ListTile(
-                    title: const Text('Favoritos'),
-                    subtitle: const Text('Administra tus favoritos'),
-                    leading: const Icon(Icons.favorite),
-                    trailing: const Icon(Icons.arrow_forward_ios),
-                    onTap: () {
-                      Get.to(() => FavoritesScreen());
-                    },
-                  ),
-                ],
-              ),
+            Column(
+              children: [
+                ListTile(
+                  title: const Text('Favoritos'),
+                  subtitle: const Text('Administra tus favoritos'),
+                  leading: const Icon(Icons.favorite),
+                  trailing: const Icon(Icons.arrow_forward_ios),
+                  onTap: () {
+                    Get.to(() => FavoritesScreen());
+                  },
+                ),
+              ],
+            ),
             const SizedBox(height: 20),
             const Divider(
               color: AppColors.lightGrey,
@@ -125,7 +125,10 @@ class ProfileScreen extends StatelessWidget {
 
             // VERSION INFO
             const SizedBox(height: 20),
-            const Text('Versión 1.1', style: TextStyle(color: AppColors.lightGrey),),
+            const Text(
+              'Versión 1.4',
+              style: TextStyle(color: AppColors.lightGrey),
+            ),
           ],
         ),
       ),

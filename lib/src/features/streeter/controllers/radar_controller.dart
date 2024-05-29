@@ -20,8 +20,13 @@ import '../../../utils/network/network_manager.dart';
 import '../../profile/controllers/user_controller.dart';
 import '../views/inventory/vendor_inventory.dart';
 
+enum FavoritesState { loading, loaded, error }
+
 class RadarController extends GetxController {
   static RadarController get instance => Get.find();
+
+  // GETS IF IS IN DARK MODE
+  bool isDarkMode = Get.isDarkMode;
 
   final Completer<GoogleMapController> mapController =
       Completer<GoogleMapController>();
@@ -42,6 +47,8 @@ class RadarController extends GetxController {
 
   // OBX LIST OF FAVORITES
   RxList<dynamic> favorites = <dynamic>[].obs;
+
+  Rx<FavoritesState> favoritesState = FavoritesState.loading.obs;
 
   @override
   void onInit() {
@@ -78,17 +85,17 @@ class RadarController extends GetxController {
       }
     });
 
-    // GET FAVORITES LIST
-
+    super.onInit();
     Future.delayed(
       const Duration(milliseconds: 500),
-      () => getFavoritesList(),
+      () {
+        getFavoritesList();
+      },
     );
-
-    super.onInit();
   }
 
   Future<void> getFavoritesList() async {
+    favoritesState.value = FavoritesState.loading;
     try {
       // LOADER INIT
       FullScreenLoader.openLoadingDialog('');
@@ -105,11 +112,17 @@ class RadarController extends GetxController {
       final favoritesRepository = Get.put(FavoritesRepository());
       favorites.assignAll(await favoritesRepository.fetchFavorites());
 
+      print('FAVORITES: $favorites');
+
       // LOADER STOP
       FullScreenLoader.stopLoading();
+      favoritesState.value = FavoritesState.loaded;
     } catch (e) {
       FullScreenLoader.stopLoading();
       Loaders.errorSnackBar(title: 'Oops!', message: e.toString());
+      print('ERROR: ${e.toString()}');
+      favorites.assignAll(['Error: ${e.toString()}']);
+      favoritesState.value = FavoritesState.error;
     }
   }
 
@@ -151,7 +164,8 @@ class RadarController extends GetxController {
 
     // DO THIS JUST ONCE
     if (moveCameraControl == false) {
-      controller.animateCamera(CameraUpdate.newCameraPosition(newCameraPosition));
+      controller
+          .animateCamera(CameraUpdate.newCameraPosition(newCameraPosition));
       moveCameraControl = true;
     }
   }
@@ -174,9 +188,6 @@ class RadarController extends GetxController {
 
       final radarRepository = Get.put(RadarRepository());
       final vendors = await radarRepository.getVendors();
-
-      // LOADER STOP
-      FullScreenLoader.stopLoading();
 
       // GET DATA FROM VENDORS LIST TO EXTRACT MARKERS AND ADD TO MAP
       for (var vendor in vendors) {
@@ -203,107 +214,153 @@ class RadarController extends GetxController {
               snippet: category,
             ),
             onTap: () {
-              //TRIGER DIALOG WITH VENDOR INFO
-              showDialog(
-                context: Get.context!,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: Column(
-                      children: [
-                        CircleAvatar(
-                          radius: 50,
-                          backgroundImage: vendorPicture != ''
-                              ? NetworkImage(vendorPicture)
-                              : AssetImage(TextStrings.AvatarDark) as ImageProvider,
-                        ),
-                        const SizedBox(height: 10,),
-                        Text(vendorName, textAlign: TextAlign.center, style: const TextStyle(fontSize: 25),),
-                        Text(category, style: const TextStyle(fontSize: 15),),
-                      ],
-                    ),
-                    content: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        // TAPABLE TEXT TO COPY TO CLIPBOARD VENDOR PHONE
-                        InkWell(
-                          onTap: () {
-                            Clipboard.setData(ClipboardData(text: vendorPhone));
-                            Loaders.infoSnackBar(
-                                title: 'Número copiado!',
-                                message: 'Puedes pegarlo en tu app de mensajería.');
-                          },
-                          child: Text(
-                            vendorPhone,
-                            style: const TextStyle(
-                              fontSize: 20,
-                              color: AppColors.primaryColor,
+              Future.delayed(Duration.zero, () {
+                showDialog(
+                  context: Get.context!,
+                  builder: (BuildContext context) {
+                    return Obx(
+                      () {
+                        if (favoritesState.value == FavoritesState.loading) {
+                          return CircularProgressIndicator();
+                        } else if (favoritesState.value ==
+                            FavoritesState.error) {
+                          return Text('Error loading favorites');
+                        } else {
+                          return AlertDialog(
+                            title: Column(
+                              children: [
+                                CircleAvatar(
+                                  radius: 50,
+                                  backgroundImage: vendorPicture != ''
+                                      ? NetworkImage(vendorPicture)
+                                      : AssetImage(TextStrings.AvatarDark)
+                                          as ImageProvider,
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  vendorName,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(fontSize: 25),
+                                ),
+                                Text(
+                                  category,
+                                  style: const TextStyle(fontSize: 15),
+                                ),
+                              ],
                             ),
-                          ),
-                        ),
-
-                        // BUTTON TO ADD TO FAVORITES (CHANGE TO REMOVE IF ALREADY IN FAVORITES) (DISABLE IF USER IS THE SAME AS VENDOR)
-                        Obx(
-                              () {
-                            if (favorites.isEmpty) {
-                              return CircularProgressIndicator();
-                            } else {
-                              return userController.user.value.id == vendorId
-                                  ? Container()
-                                  : ElevatedButton(
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    Clipboard.setData(
+                                        ClipboardData(text: vendorPhone));
+                                    Loaders.infoSnackBar(
+                                        title: 'Número copiado!',
+                                        message:
+                                            'Puedes pegarlo en tu app de mensajería.');
+                                  },
+                                  child: Text(
+                                    vendorPhone,
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      color: AppColors.primaryColor,
+                                    ),
+                                  ),
+                                ),
+                                Obx(
+                                  () {
+                                    return userController.user.value.id ==
+                                            vendorId
+                                        ? Container()
+                                        : ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: isDarkMode
+                                                  ? Colors.black
+                                                  : Colors.white,
+                                            ),
+                                            onPressed: () {
+                                              if (favorites.any((favorite) =>
+                                                  favorite['vendorId'] ==
+                                                  vendorId)) {
+                                                //REMOVE FROM FAVORITES
+                                                favorites.removeWhere(
+                                                    (favorite) =>
+                                                        favorite['vendorId'] ==
+                                                        vendorId);
+                                                favoritesController
+                                                    .deleteFavorite(vendorId);
+                                              } else {
+                                                //ADD TO FAVORITES
+                                                favorites.add({
+                                                  'vendorId': vendorId,
+                                                  'fcmToken': fcmToken,
+                                                  'vendorName': vendorName,
+                                                  'vendorPicture': vendorPicture
+                                                });
+                                                addToFavorites(
+                                                    vendorId,
+                                                    fcmToken,
+                                                    vendorName,
+                                                    vendorPicture);
+                                              }
+                                            },
+                                            child: favorites.any((favorite) =>
+                                                    favorite['vendorId'] ==
+                                                    vendorId)
+                                                ? const Icon(
+                                                Icons.favorite,
+                                                    color:
+                                                        AppColors.primaryColor)
+                                                : const Icon(
+                                                    Icons.favorite_border,
+                                                    color: Colors.grey,
+                                                  ),
+                                          );
+                                  },
+                                )
+                              ],
+                            ),
+                            actions: [
+                              TextButton(
                                 onPressed: () {
-                                  if(favorites.any((favorite) => favorite['vendorId'] == vendorId)) {
-                                    //REMOVE FROM FAVORITES
-                                    favorites.removeWhere((favorite) => favorite['vendorId'] == vendorId);
-                                    favoritesController.deleteFavorite(vendorId);
-                                  } else {
-                                    //ADD TO FAVORITES
-                                    favorites.add({
-                                      'vendorId': vendorId,
-                                      'fcmToken': fcmToken,
-                                      'vendorName': vendorName,
-                                      'vendorPicture': vendorPicture
-                                    });
-                                    addToFavorites(vendorId, fcmToken, vendorName, vendorPicture);
-                                  }
+                                  Navigator.of(context).pop();
                                 },
-                                child: favorites.any((favorite) => favorite['vendorId'] == vendorId) ? const Text('Eliminar de favoritos') : const Text('Añadir a favoritos'),
-                              );
-                            }
-                          },
-                        )
-                      ],
-                    ),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: Text('Cerrar'),
-                      ),
-                      //BUTTON TO REDIRECT TO VENDOR INVENTORY SCREEN
-                      ElevatedButton(
-                        onPressed: () {
-                          //REDIRECT TO VENDOR INVENTORY SCREEN
-                          Get.to(() => VendorInventoryScreen(
-                              vendorId: vendor['id'], vendorName: vendorName));
-                        },
-                        child: Text('Ver productos'),
-                      ),
-                    ],
-                  );
-                },
-              );
+                                child: Text('Cerrar'),
+                              ),
+                              ElevatedButton(
+                                onPressed: () {
+                                  Get.to(() => VendorInventoryScreen(
+                                      vendorId: vendor['id'],
+                                      vendorName: vendorName));
+                                },
+                                child: Text('Ver productos'),
+                              ),
+                            ],
+                          );
+                        }
+                      },
+                    );
+                  },
+                );
+              });
             },
           ),
         );
       }
+
+      // LOADER STOP
+      FullScreenLoader.stopLoading();
     } catch (e) {
       FullScreenLoader.stopLoading();
       Loaders.errorSnackBar(title: 'Oops!', message: e.toString());
     }
   }
 
-  void addToFavorites(String vendorId, String fcmToken, String vendorName, String vendorPic) async{
+  void addToFavorites(String vendorId, String fcmToken, String vendorName,
+      String vendorPic) async {
     try {
       // LOADER INIT
       FullScreenLoader.openLoadingDialog('');
@@ -318,7 +375,8 @@ class RadarController extends GetxController {
 
       // CODE TO ADD TO FAVORITES
       final favoritesRepository = Get.put(FavoritesRepository());
-      await favoritesRepository.saveFavorite(vendorId, fcmToken, vendorName, vendorPic);
+      await favoritesRepository.saveFavorite(
+          vendorId, fcmToken, vendorName, vendorPic);
 
       // CODE TO SUBSCRIBE TO VENDOR AS A TOPIC IN FIREBASE MESSAGING SERVICE
       await FirebaseMessaging.instance.subscribeToTopic(vendorId);
@@ -361,7 +419,10 @@ class RadarController extends GetxController {
       if (sellingStatus.value) {
         //  CODE TO SEND NOTIFICATION TO ALL USERS THAT ARE SUBSCRIBED TO THE TOPIC
         final favoritesRepository = Get.put(FavoritesRepository());
-        await favoritesRepository.sendFcmNotification(userController.user.value.id, '¡$vendorName está vendiendo ahora!', '¡Ven a ver los productos que tiene para ti!');
+        await favoritesRepository.sendFcmNotification(
+            userController.user.value.id,
+            '¡$vendorName está vendiendo ahora!',
+            '¡Ven a ver los productos que tiene para ti!');
 
         Loaders.warningSnackBar(
             title: 'Estás vendiendo!',

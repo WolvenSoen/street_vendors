@@ -32,7 +32,6 @@ Future<void> main() async {
   // INIT FIREBASE MESSAGING
   await FirebaseAPI().init();
 
-
   runApp(const MyApp());
 }
 
